@@ -22,6 +22,10 @@ func main() {
 		xmppbot.New(host, user, pass, room, name),
 		[]seedbotplugin.Plugin{
 			seedbotplugin.Echo{},
+			seedbotplugin.Quote{},
+			seedbotplugin.DirectMessage{},
+			seedbotplugin.StatHat{},
+			seedbotplugin.ChatLog{},
 		},
 	}
 	err := bot.Connect()
