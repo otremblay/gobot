@@ -32,7 +32,7 @@ Running a bot
 Currently, the command I use is: 
 
 ```
-./seedbot -nick="mybot" -notls=true -password="hunter2" -room="#seedbottest@conference.desktop.my.domain" -server="desktop.my.domain:5222" -session=true -username="gabe@desktop.my.domain"
+./seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
 ```
 
 Creating A Plugin
@@ -41,4 +41,3 @@ Creating A Plugin
 Creating a plugin is pretty easy, you just need to...
 
 TODO -- Fill out this section!
-
