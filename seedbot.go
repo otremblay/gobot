@@ -13,12 +13,12 @@ func main() {
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
-	flag.StringVar(&name, "name", "CrazyBot", "Name of the bot")
+	flag.StringVar(&name, "name", "seedbot", "Name of the bot")
 	flag.Parse()
 
 	//TODO:Add some validation...but whatever for now
 
-	bot := EchoBot{
+	bot := Seedbot{
 		xmppbot.New(host, user, pass, room, name),
 		[]seedbotplugin.Plugin{
 			seedbotplugin.Echo{},
@@ -26,6 +26,7 @@ func main() {
 			seedbotplugin.DirectMessage{},
 			seedbotplugin.StatHat{},
 			seedbotplugin.ChatLog{},
+			seedbotplugin.Jira{},
 		},
 	}
 	err := bot.Connect()
@@ -34,12 +35,15 @@ func main() {
 	}
 	for msg := range bot.Listen() {
 		for _, p := range bot.Plugins {
-			p.Execute(msg, bot)
+			err := p.Execute(msg, bot)
+			if err != nil {
+				bot.Log(p.Name() + " => " + err.Error())
+			}
 		}
 	}
 }
 
-type EchoBot struct {
+type Seedbot struct {
 	xmppbot.Bot
 	Plugins []seedbotplugin.Plugin
 }
