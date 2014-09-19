@@ -28,6 +28,7 @@ func main() {
 			seedbotplugin.ChatLog{},
 			seedbotplugin.Jira{},
 			seedbotplugin.Troll{},
+			seedbotplugin.RickRoll{},
 		},
 	}
 	err := bot.Connect()
