@@ -38,6 +38,37 @@ Currently, the command I use is:
 Creating A Plugin
 -----------------
 
-Creating a plugin is pretty easy, you just need to...
+Creating a plugin is pretty easy, you just need to import the xmppbot library: 
 
-TODO -- Fill out this section!
+```
+import (
+	"github.com/seedboxtech/xmppbot"
+)
+```
+
+And then implement 2 exported methods so that you conform to the seedbotplugin interface: 
+
+```
+type MyPlugin struct {}
+
+func (p MyPlugin) Name() string {
+	return "MyPlugin v1.0"
+}
+
+func (p MyPlugin) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+	if msg.From() != bot.FullName() {
+		bot.Send("Why, hello!")
+	}
+	return nil
+}
+```
+
+One last step, edit seedbot/seedbot.go and add a call to your new plugin (importing if necessary) to the []seedbotplugin.Plugin slice:
+
+```
+[]seedbotplugin.Plugin{
+	seedbotplugin.MyPlugin{},
+}
+```
+
+That's it!
