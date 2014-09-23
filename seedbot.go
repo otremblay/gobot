@@ -37,10 +37,12 @@ func main() {
 	}
 	for msg := range bot.Listen() {
 		for _, p := range bot.Plugins {
-			err := p.Execute(msg, bot)
-			if err != nil {
-				bot.Log(p.Name() + " => " + err.Error())
-			}
+			go func(m xmppbot.Message, b xmppbot.Bot) {
+				err := p.Execute(msg, bot)
+				if err != nil {
+					bot.Log(p.Name() + " => " + err.Error())
+				}
+			}(msg, bot)
 		}
 	}
 }
