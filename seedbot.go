@@ -38,9 +38,9 @@ func main() {
 	for msg := range bot.Listen() {
 		for _, p := range bot.Plugins {
 			go func(m xmppbot.Message, b xmppbot.Bot) {
-				err := p.Execute(msg, bot)
+				err := p.Execute(m, b)
 				if err != nil {
-					bot.Log(p.Name() + " => " + err.Error())
+					b.Log(p.Name() + " => " + err.Error())
 				}
 			}(msg, bot)
 		}
