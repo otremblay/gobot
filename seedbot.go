@@ -36,13 +36,13 @@ func main() {
 		log.Fatalln(err)
 	}
 	for msg := range bot.Listen() {
-		for _, p := range bot.Plugins {
-			go func(m xmppbot.Message, b xmppbot.Bot) {
+		for _, plugin := range bot.Plugins {
+			go func(p seedbotplugin.Plugin, m xmppbot.Message, b xmppbot.Bot) {
 				err := p.Execute(m, b)
 				if err != nil {
 					b.Log(p.Name() + " => " + err.Error())
 				}
-			}(msg, bot)
+			}(plugin, msg, bot)
 		}
 	}
 }
