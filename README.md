@@ -26,13 +26,19 @@ Currently, the following plugins exist:
 
 6. echo - seedbot echoes a message back to the room
 
+Installing seedbot
+------------------
+```
+$ go get github.com/seedboxtech/seedbot
+```
+
 Running a bot
 -------------
 
 Currently, the command I use is: 
 
 ```
-./seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
+$ ./seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
 ```
 
 Creating A Plugin
