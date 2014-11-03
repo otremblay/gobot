@@ -42,7 +42,7 @@ Running a bot
 Currently, the command I use is: 
 
 ```
-$ ./seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
+$ $GOPATH/bin/seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
 ```
 
 Creating A Plugin
