@@ -28,6 +28,10 @@ Currently, the following plugins exist:
 
 Installing seedbot
 ------------------
+First, you'll need to have golang installed:  http://golang.org/doc/install
+
+Then, once that is working, all you need to do is: 
+
 ```
 $ go get github.com/seedboxtech/seedbot
 ```
