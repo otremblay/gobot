@@ -35,6 +35,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	go bot.PingServer(30)
 	for msg := range bot.Listen() {
 		for _, plugin := range bot.Plugins {
 			go func(p seedbotplugin.Plugin, m xmppbot.Message, b xmppbot.Bot) {
@@ -45,6 +46,7 @@ func main() {
 			}(plugin, msg, bot)
 		}
 	}
+
 }
 
 type Seedbot struct {
