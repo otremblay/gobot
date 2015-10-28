@@ -19,21 +19,17 @@ func (p Beer) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
 		return nil
 	}
 
-	var reply string
-
 	if strings.HasPrefix(msg.Body(), "beer?") {
-		reply = beer()
+		bot.Send(beer())
 	}
 
 	if strings.HasPrefix(msg.Body(), "ビール?") {
-		reply = beer()
+		bot.Send(beer())
 	}
 
 	if strings.HasPrefix(msg.Body(), "맥주?") {
-		reply = beer()
+		bot.Send(beer())
 	}
-
-	bot.Send(reply)
 
 	return nil
 }
