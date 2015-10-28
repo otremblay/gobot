@@ -7,7 +7,7 @@
 package seedbotplugin
 
 import (
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 	"math/rand"
 	"strings"
 	"time"

@@ -2,7 +2,7 @@ package seedbotplugin
 
 import (
 	"code.google.com/p/go.net/html"
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 	"io/ioutil"
 	"net/http"
 	"net/url"

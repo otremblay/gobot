@@ -9,7 +9,7 @@ package seedbotplugin
 
 import (
 	"fmt"
-    "github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 	"github.com/seedboxtech/kwextractor"
 	"log"
 	"sort"
@@ -49,8 +49,8 @@ func (k keywordSlice) Less(i, j int) bool {
 // Send allows the bot to send a message to this helper
 func (p Keyword) Execute(message xmppbot.Message, cb xmppbot.Bot) error {
 
-    messageBuffer := make(messages, 0, 0)
-    messageBuffer = append(messageBuffer, message.Body())
+	messageBuffer := make(messages, 0, 0)
+	messageBuffer = append(messageBuffer, message.Body())
 	if strings.Contains(message.Body(), "keywords") {
 		kws := keywords(messageBuffer)
 		if len(kws) > 0 {

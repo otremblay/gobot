@@ -1,7 +1,7 @@
 package seedbotplugin
 
 import (
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 	"log"
 	"testing"
 )

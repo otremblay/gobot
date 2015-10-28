@@ -2,9 +2,9 @@ package seedbotplugin
 
 import (
 	"fmt"
-	"github.com/seedboxtech/libgojira"
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 	"strings"
+	"thezombie.net/libgojira"
 )
 
 const (
