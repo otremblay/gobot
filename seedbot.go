@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/seedboxtech/seedbotplugin"
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/gobotplugin"
+	"github.com/gabeguz/xmppbot"
 	"log"
 )
 
@@ -13,22 +13,22 @@ func main() {
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
-	flag.StringVar(&name, "name", "seedbot", "Name of the bot")
+	flag.StringVar(&name, "name", "gobot", "Name of the bot")
 	flag.Parse()
 
 	//TODO:Add some validation...but whatever for now
 
-	bot := Seedbot{
+	bot := Gobot{
 		xmppbot.New(host, user, pass, room, name),
-		[]seedbotplugin.Plugin{
-			seedbotplugin.Echo{},
-			seedbotplugin.Quote{},
-			seedbotplugin.DirectMessage{},
-			seedbotplugin.StatHat{},
-			seedbotplugin.ChatLog{},
-			seedbotplugin.Jira{},
-			seedbotplugin.Troll{},
-			seedbotplugin.RickRoll{},
+		[]gobotplugin.Plugin{
+			gobotplugin.Echo{},
+			gobotplugin.Quote{},
+			gobotplugin.DirectMessage{},
+			gobotplugin.StatHat{},
+			gobotplugin.ChatLog{},
+			gobotplugin.Jira{},
+			gobotplugin.Troll{},
+			gobotplugin.RickRoll{},
 		},
 	}
 	err := bot.Connect()
@@ -38,7 +38,7 @@ func main() {
 	go bot.PingServer(30)
 	for msg := range bot.Listen() {
 		for _, plugin := range bot.Plugins {
-			go func(p seedbotplugin.Plugin, m xmppbot.Message, b xmppbot.Bot) {
+			go func(p gobotplugin.Plugin, m xmppbot.Message, b xmppbot.Bot) {
 				err := p.Execute(m, b)
 				if err != nil {
 					b.Log(p.Name() + " => " + err.Error())
@@ -49,7 +49,7 @@ func main() {
 
 }
 
-type Seedbot struct {
+type Gobot struct {
 	xmppbot.Bot
-	Plugins []seedbotplugin.Plugin
+	Plugins []gobotplugin.Plugin
 }

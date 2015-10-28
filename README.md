@@ -1,39 +1,39 @@
-seedbot
-=======
+gobot
+=====
 
-seedbot is a Simple XMPP bot written in golang  
+gobot is a Simple XMPP bot written in golang  
 
 Initail work based on https://github.com/mattn/go-xmpp/blob/master/example/example.go
 
-seedbot is under active development, the api may change w/out warning.  
+gobot is under active development, the api may change w/out warning.  
 
-By itself, seedbot just sits and listens for incoming XMPP messages.  When a message is received, seedbot passes the message on to any number of plugins.  The plugins provide all the features of the chatbot.
+By itself, gobot just sits and listens for incoming XMPP messages.  When a message is received, gobot passes the message on to any number of plugins.  The plugins provide all the features of the chatbot.
 
 Currently, the following plugins exist: 
 
-1. dm - seedbot recognizes his nick and replies that his ears are burning when he is mentioned. 
+1. dm - gobot recognizes his nick and replies that his ears are burning when he is mentioned. 
 
-2. quote - seedbot understands the quote command.  Currently 3 types of quotes are supported: 
+2. quote - gobot understands the quote command.  Currently 3 types of quotes are supported: 
 	code quote - quotes about programming
 	integration quote - quotes about front end integration
 	admin quote - quotes about systems administration
 
-3. chatlog - seedbot logs all messages to a text file. Currently '/tmp/chatlog'
+3. chatlog - gobot logs all messages to a text file. Currently '/tmp/chatlog'
 
-4. stathat - seedbot counts each message, and logs it as a single 'hit' at stathat.
+4. stathat - gobot counts each message, and logs it as a single 'hit' at stathat.
 
-5. keyword - seedbot scans a message for work counts
+5. keyword - gobot scans a message for work counts
 
-6. echo - seedbot echoes a message back to the room
+6. echo - gobot echoes a message back to the room
 
-Installing seedbot
-------------------
+Installing gobot
+----------------
 First, you'll need to have golang installed:  http://golang.org/doc/install
 
 Then, once that is working, all you need to do is: 
 
 ```
-$ go get github.com/seedboxtech/seedbot
+$ go get github.com/gabeguz/gobot
 ```
 
 Running a bot
@@ -42,7 +42,7 @@ Running a bot
 Currently, the command I use is: 
 
 ```
-$ $GOPATH/bin/seedbot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#seedbottest@conference.jabber.my.domain" -name="seedbot"
+$ $GOPATH/bin/gobot -host="jabber.my.domain:5222" -user="gabe@jabber.my.domain" -pass="hunter2" -room="#gobottest@conference.jabber.my.domain" -name="gobot"
 ```
 
 Creating A Plugin
@@ -52,11 +52,11 @@ Creating a plugin is pretty easy, you just need to import the xmppbot library:
 
 ```
 import (
-	"github.com/seedboxtech/xmppbot"
+	"github.com/gabeguz/xmppbot"
 )
 ```
 
-And then implement 2 exported methods so that you conform to the seedbotplugin interface: 
+And then implement 2 exported methods so that you conform to the gobotplugin interface: 
 
 ```
 type MyPlugin struct {}
@@ -73,11 +73,11 @@ func (p MyPlugin) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
 }
 ```
 
-One last step, edit seedbot/seedbot.go and add a call to your new plugin (importing if necessary) to the []seedbotplugin.Plugin slice:
+One last step, edit gobot/gobot.go and add a call to your new plugin (importing if necessary) to the []gobotplugin.Plugin slice:
 
 ```
-[]seedbotplugin.Plugin{
-	seedbotplugin.MyPlugin{},
+[]gobotplugin.Plugin{
+	gobotplugin.MyPlugin{},
 }
 ```
 
