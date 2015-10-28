@@ -1,4 +1,4 @@
-package seedbotplugin
+package gobotplugin
 
 import (
 	"github.com/gabeguz/xmppbot"

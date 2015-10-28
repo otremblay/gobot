@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 // Package quote handles different type of quotes
-package seedbotplugin
+package gobotplugin
 
 import (
 	"github.com/gabeguz/xmppbot"

@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 // Package stathat gives the bot the ability to send info to stathat.com
-package seedbotplugin
+package gobotplugin
 
 import (
 	"github.com/gabeguz/xmppbot"

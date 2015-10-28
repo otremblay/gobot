@@ -1,4 +1,4 @@
-package seedbotplugin
+package gobotplugin
 
 import (
 	"code.google.com/p/go.net/html"

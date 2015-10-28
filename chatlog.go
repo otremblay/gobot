@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 // Package chatlog logs all chat messages to a text file
-package seedbotplugin
+package gobotplugin
 
 import (
 	"github.com/gabeguz/xmppbot"

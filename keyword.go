@@ -5,7 +5,7 @@
 
 // Package keyword gives the bot the ability to analyze messages
 //  to determine word counts
-package seedbotplugin
+package gobotplugin
 
 import (
 	"fmt"

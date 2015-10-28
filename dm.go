@@ -5,7 +5,7 @@
 
 // Package dm gives the bot the ability to recognize messages
 //  sent to himself, and reply accordingly
-package seedbotplugin
+package gobotplugin
 
 import (
 	"github.com/gabeguz/xmppbot"
