@@ -22,6 +22,7 @@ func main() {
 		xmppbot.New(host, user, pass, room, name),
 		[]gobotplugin.Plugin{
 			gobotplugin.Echo{},
+			gobotplugin.Beer{},
 			gobotplugin.Quote{},
 			gobotplugin.DirectMessage{},
 			gobotplugin.StatHat{},
