@@ -7,6 +7,23 @@ import (
 	"time"
 )
 
+var ayes = []string{
+	"proost! (beer)",
+	"(beer) 乾杯",
+	"cheers! (beer)",
+	"¡salud! (beer)",
+	"(beer) 건배",
+	"Mmm... beer. (drool)",
+}
+
+var nays = []string{
+	"wait for it...",
+	"beer must wait.",
+	"(yoda) Friday, the beer drinking day is. Until four o'clock must you wait.",
+	"Really want to hit the ballmer peak eh?",
+	"no beer for you.",
+}
+
 type Beer struct{}
 
 func (p Beer) Name() string {
@@ -21,13 +38,9 @@ func (p Beer) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
 
 	if strings.HasPrefix(msg.Body(), "beer?") {
 		bot.Send(beer())
-	}
-
-	if strings.HasPrefix(msg.Body(), "ビール?") {
+	} else if strings.HasPrefix(msg.Body(), "ビール?") {
 		bot.Send(beer())
-	}
-
-	if strings.HasPrefix(msg.Body(), "맥주?") {
+	} else if strings.HasPrefix(msg.Body(), "맥주?") {
 		bot.Send(beer())
 	}
 
@@ -45,28 +58,4 @@ func beer() string {
 		nope := nays[rand.Intn(len(nays))]
 		return nope
 	}
-}
-
-func beerJapan() string {
-	now := time.Now()
-	if now.Weekday().String() == "Friday" && now.Hour() >= 16 {
-		return "(beer) おねがいします"
-	} else {
-		return "wait for it..."
-	}
-}
-
-var ayes = []string{
-	"proost! (beer)",
-	"(beer) 乾杯",
-	"cheers! (beer)",
-	"¡salud! (beer)",
-	"(beer) 건배",
-}
-
-var nays = []string{
-	"wait for it...",
-	"beer must wait.",
-	"(yoda) Friday, the beer drinking day is. Until four o'clock must you wait.",
-	"Really want to hit the ballmer peak eh?",
 }
