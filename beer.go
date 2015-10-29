@@ -36,20 +36,20 @@ func (p Beer) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
 		return nil
 	}
 
+	now := time.Now()
 	if strings.HasPrefix(msg.Body(), "beer?") {
-		bot.Send(beer())
+		bot.Send(beer(now))
 	} else if strings.HasPrefix(msg.Body(), "ビール?") {
-		bot.Send(beer())
+		bot.Send(beer(now))
 	} else if strings.HasPrefix(msg.Body(), "맥주?") {
-		bot.Send(beer())
+		bot.Send(beer(now))
 	}
 
 	return nil
 }
 
-func beer() string {
-	now := time.Now()
-	if now.Weekday().String() == "Friday" && now.Hour() >= 16 {
+func beer(t time.Time) string {
+	if t.Weekday().String() == "Friday" && t.Hour() >= 16 {
 		rand.Seed(time.Now().UnixNano())
 		yup := ayes[rand.Intn(len(ayes))]
 		return yup

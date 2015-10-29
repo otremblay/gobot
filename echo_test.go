@@ -4,6 +4,7 @@ import (
 	"github.com/gabeguz/xmppbot"
 	"log"
 	"testing"
+	"time"
 )
 
 type Bot struct{}
@@ -31,6 +32,9 @@ func (p Bot) Send(string) {
 }
 
 func (p Bot) SetLogger(*log.Logger) {
+}
+
+func (p Bot) PingServer(time.Duration) {
 }
 
 type Message struct{}
