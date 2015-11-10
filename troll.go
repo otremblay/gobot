@@ -32,7 +32,7 @@ func (p Troll) Name() string {
 }
 
 func (p Troll) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
-	if strings.Contains(msg.Body(), "troll") {
+	if strings.HasPrefix(msg.Body(), "troll") {
 		bot.Send(troll)
 	}
 	return nil
