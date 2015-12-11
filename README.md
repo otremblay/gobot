@@ -26,6 +26,8 @@ Currently, the following plugins exist:
 
 6. echo - gobot echoes a message back to the room
 
+7. beer - ask gobot for a beer?
+
 Installing gobot
 ----------------
 First, you'll need to have golang installed:  http://golang.org/doc/install
