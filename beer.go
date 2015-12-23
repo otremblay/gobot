@@ -53,6 +53,8 @@ func beer(t time.Time) string {
 		rand.Seed(time.Now().UnixNano())
 		yup := ayes[rand.Intn(len(ayes))]
 		return yup
+	} else if t.Month().String() == "December" && t.Day() == 24 {
+		return "Merry Beermas!"
 	} else {
 		rand.Seed(time.Now().UnixNano())
 		nope := nays[rand.Intn(len(nays))]

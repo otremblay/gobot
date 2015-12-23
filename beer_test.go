@@ -38,3 +38,13 @@ func TestNotTimeForBeer(t *testing.T) {
 	}
 	t.Errorf("Test: '%s' not found in nays slice: %v", reply, nays)
 }
+
+func TestChristmasEve(t *testing.T) {
+	time := time.Date(2009, time.December, 24, 23, 0, 0, 0, time.UTC)
+	reply := beer(time)
+	expected := "Merry Beermas!"
+	if reply == expected {
+		return
+	}
+	t.Errorf("Test: '%s' does not equal %s", reply, expected)
+}
