@@ -1,6 +1,7 @@
 package xmppbot
 
 import (
+	"github.com/gabeguz/gobot"
 	"github.com/mattn/go-xmpp"
 	"log"
 	"os"
@@ -65,10 +66,10 @@ func (b *bot) PingServer(seconds time.Duration) {
 	}
 }
 
-func (b *bot) Listen() chan Message {
-	msgChan := make(chan Message)
+func (b *bot) Listen() chan gobot.Message {
+	msgChan := make(chan gobot.Message)
 
-	go func(recv chan Message) {
+	go func(recv chan gobot.Message) {
 		for {
 			chat, err := b.client.Recv()
 			if err != nil {
@@ -96,7 +97,7 @@ func (b *bot) Log(msg string) {
 
 //*************************************************
 
-func New(host, user, password, room, name string) Bot {
+func New(host, user, password, room, name string) gobot.Bot {
 	opt := Options{
 		xmpp.Options{
 			Host:     host,
