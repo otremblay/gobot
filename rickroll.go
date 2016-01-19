@@ -1,7 +1,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"time"
 )
 
@@ -22,7 +22,7 @@ func (p RickRoll) Name() string {
 	return "RickRoll v1.0"
 }
 
-func (p RickRoll) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p RickRoll) Execute(msg gobot.Message, bot gobot.Bot) error {
 	if msg.Body() == bot.Name()+": how are you feeling?" {
 		time.Sleep(5 * time.Second)
 		for _, s := range rickroll {

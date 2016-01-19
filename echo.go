@@ -1,7 +1,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"strings"
 )
 
@@ -11,7 +11,7 @@ func (p Echo) Name() string {
 	return "Echo v1.0"
 }
 
-func (p Echo) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p Echo) Execute(msg gobot.Message, bot gobot.Bot) error {
 	if strings.HasPrefix(msg.Body(), "echo ") {
 		if msg.From() != bot.FullName() {
 			reply := echo(msg.Body())

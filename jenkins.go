@@ -1,7 +1,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"strings"
 )
 
@@ -11,7 +11,7 @@ func (p Jenkins) Name() string {
 	return "Jenkins v1.0"
 }
 
-func (p Jenkins) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p Jenkins) Execute(msg gobot.Message, bot gobot.Bot) error {
 	var status string
 	if strings.HasPrefix(msg.Body(), "jenkins ") {
 		if msg.From() != bot.FullName() {

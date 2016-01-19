@@ -7,7 +7,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
@@ -22,7 +22,7 @@ func (p Quote) Name() string {
 }
 
 // Send allows the bot to send us a message
-func (p Quote) Execute(message xmppbot.Message, bot xmppbot.Bot) error {
+func (p Quote) Execute(message gobot.Message, bot gobot.Bot) error {
 	var q = ""
 	if strings.Contains(message.Body(), "code quote") {
 		q = quote("code")

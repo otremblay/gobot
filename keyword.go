@@ -9,7 +9,7 @@ package gobotplugin
 
 import (
 	"fmt"
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"github.com/seedboxtech/kwextractor"
 	"log"
 	"sort"
@@ -47,7 +47,7 @@ func (k keywordSlice) Less(i, j int) bool {
 }
 
 // Send allows the bot to send a message to this helper
-func (p Keyword) Execute(message xmppbot.Message, cb xmppbot.Bot) error {
+func (p Keyword) Execute(message gobot.Message, cb gobot.Bot) error {
 
 	messageBuffer := make(messages, 0, 0)
 	messageBuffer = append(messageBuffer, message.Body())

@@ -1,7 +1,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
@@ -30,7 +30,7 @@ func (p Beer) Name() string {
 	return "Beer v1.0"
 }
 
-func (p Beer) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p Beer) Execute(msg gobot.Message, bot gobot.Bot) error {
 	// Don't reply if it's the bot asking
 	if msg.From() == bot.FullName() {
 		return nil

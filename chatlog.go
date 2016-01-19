@@ -7,7 +7,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"log"
 	"os"
 )
@@ -21,7 +21,7 @@ func (c ChatLog) Name() string {
 }
 
 // Send allows the bot to send a message to this helper
-func (c ChatLog) Execute(message xmppbot.Message, bot xmppbot.Bot) error {
+func (c ChatLog) Execute(message gobot.Message, bot gobot.Bot) error {
 	f := getLogFileHandle("/tmp/chatlog")
 	logit(message.Body(), f)
 	return nil

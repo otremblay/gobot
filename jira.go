@@ -2,7 +2,7 @@ package gobotplugin
 
 import (
 	"fmt"
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"strings"
 	"thezombie.net/libgojira"
 )
@@ -19,7 +19,7 @@ func (p Jira) Name() string {
 	return "Jira v1.0"
 }
 
-func (p Jira) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	if p.client == nil {
 		//TODO: Read options from file??

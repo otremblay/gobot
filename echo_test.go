@@ -1,7 +1,7 @@
 package gobotplugin
 
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"log"
 	"testing"
 	"time"
@@ -13,7 +13,7 @@ func (p Bot) Connect() error {
 	return nil
 }
 
-func (p Bot) Listen() chan xmppbot.Message {
+func (p Bot) Listen() chan gobot.Message {
 	return nil
 }
 

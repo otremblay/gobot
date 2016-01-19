@@ -2,7 +2,7 @@ package gobotplugin
 
 import (
 	"code.google.com/p/go.net/html"
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -15,7 +15,7 @@ func (p Url) Name() string {
 	return "Url v1.0"
 }
 
-func (p Url) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p Url) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	u, err := url.Parse(msg.Body())
 	if err != nil {
