@@ -118,6 +118,7 @@ func codeQuote() string {
 		"There are other factors that can contribute to software rot [...] but neglect accelerates the rot faster than any other factor.",
 		"functions should either do something or answer something, but not both",
 		"Care about your code. If you don’t, then chances are no-one else will either.",
+		"Programs should be written for people to read, and only incidentally for machines to execute. — Structure and Interpretation of Computer Programs by Abelson and Sussman",
 	}
 	rand.Seed(time.Now().UnixNano())
 	quote := quotes[rand.Intn(len(quotes))]
