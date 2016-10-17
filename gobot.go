@@ -4,8 +4,8 @@ import (
 	"flag"
 	"log"
 
-	"github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobotplugin"
+	"github.com/gabeguz/libgobot"
 	"github.com/gabeguz/xmppbot"
 )
 
