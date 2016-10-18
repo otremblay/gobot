@@ -4,7 +4,15 @@ import (
 	"flag"
 	"log"
 
-	"github.com/gabeguz/gobotplugin"
+	"github.com/gabeguz/gobotplugin/beer"
+	"github.com/gabeguz/gobotplugin/chatlog"
+	"github.com/gabeguz/gobotplugin/dm"
+	"github.com/gabeguz/gobotplugin/echo"
+	"github.com/gabeguz/gobotplugin/quote"
+	"github.com/gabeguz/gobotplugin/rickroll"
+	"github.com/gabeguz/gobotplugin/stathat"
+	"github.com/gabeguz/gobotplugin/troll"
+	"github.com/gabeguz/gobotplugin/url"
 	"github.com/gabeguz/libgobot"
 	"github.com/gabeguz/xmppbot"
 )
@@ -23,15 +31,15 @@ func main() {
 	bot := Gobot{
 		xmppbot.New(host, user, pass, room, name),
 		[]gobot.Plugin{
-			gobotplugin.Echo{},
-			gobotplugin.Beer{},
-			gobotplugin.Quote{},
-			gobotplugin.DirectMessage{},
-			gobotplugin.StatHat{},
-			gobotplugin.ChatLog{},
-			gobotplugin.Jira{},
-			gobotplugin.Troll{},
-			gobotplugin.RickRoll{},
+			echo.Echo{},
+			beer.Beer{},
+			quote.Quote{},
+			dm.DirectMessage{},
+			stathat.StatHat{},
+			chatlog.ChatLog{},
+			troll.Troll{},
+			rickroll.RickRoll{},
+			url.Url{},
 		},
 	}
 	err := bot.Connect()
