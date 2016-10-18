@@ -5,11 +5,11 @@
 
 // Package keyword gives the bot the ability to analyze messages
 //  to determine word counts
-package gobotplugin
+package keyword
 
 import (
 	"fmt"
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"github.com/seedboxtech/kwextractor"
 	"log"
 	"sort"

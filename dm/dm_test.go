@@ -1,4 +1,4 @@
-package gobotplugin
+package dm
 
 import (
 	"testing"

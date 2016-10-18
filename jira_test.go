@@ -1,5 +1,0 @@
-package gobotplugin
-
-import (
-)
-

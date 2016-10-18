@@ -1,4 +1,4 @@
-package gobotplugin
+package jenkins
 
 import (
 	"testing"

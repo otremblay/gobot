@@ -1,7 +1,7 @@
-package gobotplugin
+package jenkins
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"strings"
 )
 

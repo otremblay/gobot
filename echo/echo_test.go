@@ -1,7 +1,7 @@
-package gobotplugin
+package echo
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"log"
 	"testing"
 	"time"

@@ -1,4 +1,4 @@
-package gobotplugin
+package quote
 
 import (
 	"testing"

@@ -5,10 +5,10 @@
 
 // Package dm gives the bot the ability to recognize messages
 //  sent to himself, and reply accordingly
-package gobotplugin
+package dm
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"strings"
 )
 

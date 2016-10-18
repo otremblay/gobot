@@ -4,10 +4,10 @@
 // license that can be found in the LICENSE file.
 
 // Package stathat gives the bot the ability to send info to stathat.com
-package gobotplugin
+package stathat
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"github.com/stathat/go"
 )
 

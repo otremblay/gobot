@@ -1,8 +1,8 @@
-package gobotplugin
+package jira
 
 import (
 	"fmt"
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"strings"
 	"thezombie.net/libgojira"
 )

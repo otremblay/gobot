@@ -1,8 +1,8 @@
-package gobotplugin
+package url
 
 import (
-	"code.google.com/p/go.net/html"
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
+	"golang.org/x/net/html"
 	"io/ioutil"
 	"net/http"
 	"net/url"

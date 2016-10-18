@@ -4,10 +4,10 @@
 // license that can be found in the LICENSE file.
 
 // Package chatlog logs all chat messages to a text file
-package gobotplugin
+package chatlog
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"log"
 	"os"
 )

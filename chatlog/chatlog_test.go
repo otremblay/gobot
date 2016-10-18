@@ -1,4 +1,4 @@
-package gobotplugin
+package chatlog
 
 import (
 	"io/ioutil"

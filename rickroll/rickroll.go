@@ -1,7 +1,7 @@
-package gobotplugin
+package rickroll
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"time"
 )
 

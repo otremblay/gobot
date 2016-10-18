@@ -4,10 +4,10 @@
 // license that can be found in the LICENSE file.
 
 // Package quote handles different type of quotes
-package gobotplugin
+package quote
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"math/rand"
 	"strings"
 	"time"
