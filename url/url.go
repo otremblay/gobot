@@ -1,12 +1,10 @@
 package url
 
 import (
+	"fmt"
 	"github.com/gabeguz/libgobot"
-	"golang.org/x/net/html"
-	"io/ioutil"
-	"net/http"
+	"github.com/thatguystone/swan"
 	"net/url"
-	"strings"
 )
 
 type Url struct{}
@@ -17,36 +15,23 @@ func (p Url) Name() string {
 
 func (p Url) Execute(msg gobot.Message, bot gobot.Bot) error {
 
-	u, err := url.Parse(msg.Body())
+	if msg.From() == bot.FullName() {
+		return nil
+	}
+
+	u, err := url.ParseRequestURI(msg.Body())
 	if err != nil {
 		return err
 	}
 
-	res, err := http.Get(u.String())
-	if err != nil {
-		return (err)
-	}
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return (err)
-	}
-	doc, err := html.Parse(strings.NewReader(string(body)))
+	a, err := swan.FromURL(u.String())
 	if err != nil {
 		return (err)
 	}
 
-	var g func(*html.Node)
-	g = func(n *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "title" {
-			for _, value := range n.Attr {
-				bot.Send(value.Val)
-			}
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			g(c)
-		}
-	}
-	g(doc)
+	// Respond with the article title
+	fmt.Printf("Title: %v\n", a)
+	bot.Send(a.Meta.Title)
+
 	return nil
 }
