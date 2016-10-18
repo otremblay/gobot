@@ -1,7 +1,7 @@
 package xmppbot
 
 import (
-	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/libgobot"
 	"github.com/mattn/go-xmpp"
 	"log"
 	"os"
@@ -54,7 +54,7 @@ func (b *bot) Connect() error {
 		return err
 	}
 	b.logger.Printf("Joining %s with resource %s \n", b.Opt.Room, b.Opt.Resource)
-	b.client.JoinMUC(b.Opt.Room, b.Opt.Resource)
+	b.client.JoinMUCNoHistory(b.Opt.Room, b.Opt.Resource)
 	return nil
 }
 
