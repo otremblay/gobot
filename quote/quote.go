@@ -57,6 +57,7 @@ func quote(topic string) string {
 // codeQuote returns an appropriate code quote
 func codeQuote() string {
 	quotes := []string{
+		"If you’re about to take a hundred lines to write what you could in ten, stop and ask yourself this: what the fuck? --Mark, Criminal Overengineering",
 		"If tests are hard to write, then your code is hard to use. -etsy",
 		"A class name should not be a verb",
 		"Leave the campground cleaner than you found it",
