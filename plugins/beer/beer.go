@@ -1,7 +1,7 @@
 package beer
 
 import (
-	"github.com/gabeguz/libgobot"
+	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"

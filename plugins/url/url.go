@@ -2,7 +2,7 @@ package url
 
 import (
 	"fmt"
-	"github.com/gabeguz/libgobot"
+	"github.com/gabeguz/gobot"
 	"github.com/thatguystone/swan"
 	"net/url"
 )

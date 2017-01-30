@@ -1,7 +1,7 @@
-package xmppbot
+package xmpp
 
 import (
-	"github.com/gabeguz/libgobot"
+	"github.com/gabeguz/gobot"
 	"github.com/mattn/go-xmpp"
 	"log"
 	"os"

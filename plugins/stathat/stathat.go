@@ -7,7 +7,7 @@
 package stathat
 
 import (
-	"github.com/gabeguz/libgobot"
+	"github.com/gabeguz/gobot"
 	"github.com/stathat/go"
 )
 

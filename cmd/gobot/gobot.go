@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 
+	"github.com/gabeguz/gobot"
+	"github.com/gabeguz/gobot/bots/xmpp"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/dm"
@@ -13,8 +15,6 @@ import (
 	"github.com/gabeguz/gobot/plugins/stathat"
 	"github.com/gabeguz/gobot/plugins/troll"
 	"github.com/gabeguz/gobot/plugins/url"
-	"github.com/gabeguz/libgobot"
-	"github.com/gabeguz/xmppbot"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 	//TODO:Add some validation...but whatever for now
 
 	bot := Gobot{
-		xmppbot.New(host, user, pass, room, name),
+		xmpp.New(host, user, pass, room, name),
 		[]gobot.Plugin{
 			echo.Echo{},
 			beer.Beer{},

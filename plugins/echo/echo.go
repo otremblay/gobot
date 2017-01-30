@@ -1,7 +1,7 @@
 package echo
 
 import (
-	"github.com/gabeguz/libgobot"
+	"github.com/gabeguz/gobot"
 	"strings"
 )
 
