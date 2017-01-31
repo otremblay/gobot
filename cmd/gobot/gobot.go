@@ -4,17 +4,18 @@ import (
 	"flag"
 	"log"
 
+	"github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobot/bot"
-	"github.com/gabeguz/gobot/bot/xmpp"
-	"github.com/gabeguz/gobot/plugin/beer"
-	"github.com/gabeguz/gobot/plugin/chatlog"
-	"github.com/gabeguz/gobot/plugin/dm"
-	"github.com/gabeguz/gobot/plugin/echo"
-	"github.com/gabeguz/gobot/plugin/quote"
-	"github.com/gabeguz/gobot/plugin/rickroll"
-	"github.com/gabeguz/gobot/plugin/stathat"
-	"github.com/gabeguz/gobot/plugin/troll"
-	"github.com/gabeguz/gobot/plugin/url"
+	"github.com/gabeguz/gobot/bots/slack"
+	"github.com/gabeguz/gobot/plugins/beer"
+	"github.com/gabeguz/gobot/plugins/chatlog"
+	"github.com/gabeguz/gobot/plugins/dm"
+	"github.com/gabeguz/gobot/plugins/echo"
+	"github.com/gabeguz/gobot/plugins/quote"
+	"github.com/gabeguz/gobot/plugins/rickroll"
+	"github.com/gabeguz/gobot/plugins/stathat"
+	"github.com/gabeguz/gobot/plugins/troll"
+	"github.com/gabeguz/gobot/plugins/url"
 )
 
 func main() {
@@ -28,9 +29,9 @@ func main() {
 
 	//TODO:Add some validation...but whatever for now
 
-	gobot := chatbot{
-		xmpp.New(host, user, pass, room, name),
-		[]bot.Plugin{
+	bot := Gobot{
+		slack.New(pass, room, name),
+		[]gobot.Plugin{
 			echo.Echo{},
 			beer.Beer{},
 			quote.Quote{},
@@ -42,7 +43,25 @@ func main() {
 			url.Url{},
 		},
 	}
-	err := gobot.Connect()
+
+	/*
+		bot := Gobot{
+			xmpp.New(host, user, pass, room, name),
+			[]gobot.Plugin{
+				echo.Echo{},
+				beer.Beer{},
+				quote.Quote{},
+				dm.DirectMessage{},
+				stathat.StatHat{},
+				chatlog.ChatLog{},
+				troll.Troll{},
+				rickroll.RickRoll{},
+				url.Url{},
+			},
+		}
+	*/
+
+	err := bot.Connect()
 	if err != nil {
 		log.Fatalln(err)
 	}
