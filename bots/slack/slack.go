@@ -1,6 +1,7 @@
-package xmpp
+package slack
 
 import (
+	"fmt"
 	"github.com/gabeguz/gobot"
 	"github.com/nlopes/slack"
 	"log"
@@ -31,7 +32,7 @@ func (m message) From() string {
 //*************************************************
 type bot struct {
 	Opt    Options
-	client *slack.Client
+	client *slack.RTM
 	logger *log.Logger
 }
 
@@ -47,10 +48,10 @@ func (b *bot) Send(msg string) {
 }
 
 func (b *bot) Connect() error {
-	var err error
 	b.logger.Printf("Connecting to slack\n")
 	// slack.New doesn't return an error
-	b.client = slack.New(b.Opt.Token)
+	slack := slack.New(b.Opt.Token)
+	b.client = slack.NewRTM()
 	b.logger.Printf("Joining %s\n", b.Opt.Room)
 	// TODO - join a room!
 	return nil
@@ -63,18 +64,46 @@ func (b *bot) PingServer(seconds time.Duration) {
 func (b *bot) Listen() chan gobot.Message {
 	msgChan := make(chan gobot.Message)
 
+	go b.client.ManageConnection()
+
 	go func(recv chan gobot.Message) {
-		for {
-			chat, err := b.client.Recv()
-			if err != nil {
-				b.logger.Printf("Error: %s \n", err)
+		for msg := range b.client.IncomingEvents {
+			fmt.Print("Event Received: ")
+
+			switch ev := msg.Data.(type) {
+			case *slack.HelloEvent:
+				// Ignore hello
+
+			case *slack.ConnectedEvent:
+				fmt.Println("Infos:", ev.Info)
+				fmt.Println("Connection counter:", ev.ConnectionCount)
+				// Replace #general with your Channel ID
+				b.client.SendMessage(b.client.NewOutgoingMessage("Hello world", b.Opt.Room))
+
+			case *slack.MessageEvent:
+				fmt.Printf("Message: %v\n", ev)
+				//recv <- message{body: ev}
+
+			case *slack.PresenceChangeEvent:
+				fmt.Printf("Presence Change: %v\n", ev)
+				b.logger.Printf("Presence Change: %+v \n", ev)
+
+			case *slack.LatencyReport:
+				fmt.Printf("Current latency: %v\n", ev.Value)
+
+			case *slack.RTMError:
+				fmt.Printf("Error: %s\n", ev.Error())
+
+			case *slack.InvalidAuthEvent:
+				fmt.Printf("Invalid credentials")
+				return
+
+			default:
+				fmt.Printf("Other event: %v\n", ev)
+				// Ignore other events..
+				// fmt.Printf("Unexpected: %v\n", msg.Data)
 			}
-			switch v := chat.(type) {
-			case xmpp.Chat:
-				recv <- message{body: v.Text, from: v.Remote}
-			case xmpp.Presence:
-				b.logger.Printf("Presence: %+v \n", v)
-			}
+
 		}
 	}(msgChan)
 
