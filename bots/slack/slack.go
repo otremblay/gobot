@@ -2,11 +2,12 @@ package slack
 
 import (
 	"fmt"
-	"github.com/gabeguz/gobot"
-	"github.com/nlopes/slack"
 	"log"
 	"os"
 	"time"
+
+	"github.com/gabeguz/gobot"
+	"github.com/nlopes/slack"
 )
 
 type Options struct {
@@ -30,25 +31,29 @@ func (m message) From() string {
 }
 
 //*************************************************
-type bot struct {
+type Bot struct {
 	Opt    Options
 	client *slack.RTM
 	logger *log.Logger
 }
 
-func (b *bot) FullName() string {
+func (b *Bot) FullName() string {
 	return b.Opt.Name
 }
 
-func (b *bot) Name() string {
+func (b *Bot) Name() string {
 	return b.Opt.Name
 }
 
-func (b *bot) Send(msg string) {
+func (b *Bot) Send(msg string) {
 	b.client.SendMessage(b.client.NewOutgoingMessage(msg, b.Opt.Room))
 }
 
-func (b *bot) Connect() error {
+func (b *Bot) Client() *slack.RTM {
+	return b.client
+}
+
+func (b *Bot) Connect() error {
 	b.logger.Printf("Connecting to slack\n")
 	// slack.New doesn't return an error
 	slack := slack.New(b.Opt.Token)
@@ -58,11 +63,11 @@ func (b *bot) Connect() error {
 	return nil
 }
 
-// TODO this shouldn't be an exported part of the bot interface, as not all bots will need this.
-func (b *bot) PingServer(seconds time.Duration) {
+// TODO this shouldn't be an exported part of the Bot interface, as not all Bots will need this.
+func (b *Bot) PingServer(seconds time.Duration) {
 }
 
-func (b *bot) Listen() chan gobot.Message {
+func (b *Bot) Listen() chan gobot.Message {
 	msgChan := make(chan gobot.Message)
 
 	go b.client.ManageConnection()
@@ -112,11 +117,11 @@ func (b *bot) Listen() chan gobot.Message {
 	return msgChan
 }
 
-func (b *bot) SetLogger(logger *log.Logger) {
+func (b *Bot) SetLogger(logger *log.Logger) {
 	b.logger = logger
 }
 
-func (b *bot) Log(msg string) {
+func (b *Bot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
@@ -129,7 +134,7 @@ func New(token, room, name string) gobot.Bot {
 		Name:  name,
 		Debug: true,
 	}
-	bot := &bot{Opt: opt}
-	bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
-	return bot
+	Bot := &Bot{Opt: opt}
+	Bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
+	return Bot
 }

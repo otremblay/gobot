@@ -6,11 +6,13 @@ import (
 
 	"github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobot/bot"
+	gb "github.com/gabeguz/gobot/bots/gobot"
 	"github.com/gabeguz/gobot/bots/slack"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/dm"
 	"github.com/gabeguz/gobot/plugins/echo"
+	"github.com/gabeguz/gobot/plugins/jira"
 	"github.com/gabeguz/gobot/plugins/quote"
 	"github.com/gabeguz/gobot/plugins/rickroll"
 	"github.com/gabeguz/gobot/plugins/stathat"
@@ -29,7 +31,7 @@ func main() {
 
 	//TODO:Add some validation...but whatever for now
 
-	bot := Gobot{
+	bot := gb.Gobot{
 		slack.New(pass, room, name),
 		[]gobot.Plugin{
 			echo.Echo{},
@@ -41,11 +43,12 @@ func main() {
 			troll.Troll{},
 			rickroll.RickRoll{},
 			url.Url{},
+			jira.Jira{},
 		},
 	}
 
 	/*
-		bot := Gobot{
+		bot := gb.Gobot{
 			xmpp.New(host, user, pass, room, name),
 			[]gobot.Plugin{
 				echo.Echo{},
@@ -81,9 +84,4 @@ func executePlugin(p bot.Plugin, m bot.Message, b bot.Bot) {
 	if err != nil {
 		b.Log(p.Name() + " => " + err.Error())
 	}
-}
-
-type chatbot struct {
-	bot.Bot
-	plugins []bot.Plugin
 }
