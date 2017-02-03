@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/gabeguz/gobot"
-	"github.com/gabeguz/gobot/bots/xmpp"
+	"github.com/gabeguz/gobot/bots/slack"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/dm"
@@ -29,7 +29,7 @@ func main() {
 	//TODO:Add some validation...but whatever for now
 
 	bot := Gobot{
-		xmpp.New(host, user, pass, room, name),
+		slack.New(pass, room, name),
 		[]gobot.Plugin{
 			echo.Echo{},
 			beer.Beer{},
@@ -42,11 +42,29 @@ func main() {
 			url.Url{},
 		},
 	}
+
+	/*
+		bot := Gobot{
+			xmpp.New(host, user, pass, room, name),
+			[]gobot.Plugin{
+				echo.Echo{},
+				beer.Beer{},
+				quote.Quote{},
+				dm.DirectMessage{},
+				stathat.StatHat{},
+				chatlog.ChatLog{},
+				troll.Troll{},
+				rickroll.RickRoll{},
+				url.Url{},
+			},
+		}
+	*/
+
 	err := bot.Connect()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	go bot.PingServer(30)
+	//go bot.PingServer(30)
 	var msg gobot.Message
 	var plugin gobot.Plugin
 	for msg = range bot.Listen() {

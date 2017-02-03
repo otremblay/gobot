@@ -45,15 +45,16 @@ func (b *bot) Name() string {
 }
 
 func (b *bot) Send(msg string) {
+	b.client.SendMessage(b.client.NewOutgoingMessage(msg, b.Opt.Room))
 }
 
 func (b *bot) Connect() error {
 	b.logger.Printf("Connecting to slack\n")
 	// slack.New doesn't return an error
 	slack := slack.New(b.Opt.Token)
+	slack.SetDebug(true)
 	b.client = slack.NewRTM()
 	b.logger.Printf("Joining %s\n", b.Opt.Room)
-	// TODO - join a room!
 	return nil
 }
 
@@ -82,7 +83,8 @@ func (b *bot) Listen() chan gobot.Message {
 
 			case *slack.MessageEvent:
 				fmt.Printf("Message: %v\n", ev)
-				//recv <- message{body: ev}
+				recv <- message{body: ev.Msg.Text, from: ev.Msg.Channel}
+				// recv <- message{body: v.Text, from: v.Remote}
 
 			case *slack.PresenceChangeEvent:
 				fmt.Printf("Presence Change: %v\n", ev)
@@ -99,7 +101,7 @@ func (b *bot) Listen() chan gobot.Message {
 				return
 
 			default:
-				fmt.Printf("Other event: %v\n", ev)
+				//fmt.Printf("Other event: %v\n", ev)
 				// Ignore other events..
 				// fmt.Printf("Unexpected: %v\n", msg.Data)
 			}
