@@ -1,0 +1,20 @@
+{
+  "linters": {
+    "golint": {
+      "type": "golint",
+      "include": "(\\.go$)"
+    },
+	"spelling": {
+	  "type": "spelling"
+	},
+  	"filename": {
+	  "type": "filename"
+	},
+	"merge-conflict": {
+	  "type": "merge-conflict"
+	},
+    "chmod": {
+      "type": "chmod"
+    } 
+  }
+}

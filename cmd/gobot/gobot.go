@@ -5,8 +5,16 @@ import (
 	"log"
 
 	"github.com/gabeguz/gobot"
-	"github.com/gabeguz/gobotplugin"
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot/bots/xmpp"
+	"github.com/gabeguz/gobot/plugins/beer"
+	"github.com/gabeguz/gobot/plugins/chatlog"
+	"github.com/gabeguz/gobot/plugins/dm"
+	"github.com/gabeguz/gobot/plugins/echo"
+	"github.com/gabeguz/gobot/plugins/quote"
+	"github.com/gabeguz/gobot/plugins/rickroll"
+	"github.com/gabeguz/gobot/plugins/stathat"
+	"github.com/gabeguz/gobot/plugins/troll"
+	"github.com/gabeguz/gobot/plugins/url"
 )
 
 func main() {
@@ -21,17 +29,17 @@ func main() {
 	//TODO:Add some validation...but whatever for now
 
 	bot := Gobot{
-		xmppbot.New(host, user, pass, room, name),
+		xmpp.New(host, user, pass, room, name),
 		[]gobot.Plugin{
-			gobotplugin.Echo{},
-			gobotplugin.Beer{},
-			gobotplugin.Quote{},
-			gobotplugin.DirectMessage{},
-			gobotplugin.StatHat{},
-			gobotplugin.ChatLog{},
-			gobotplugin.Jira{},
-			gobotplugin.Troll{},
-			gobotplugin.RickRoll{},
+			echo.Echo{},
+			beer.Beer{},
+			quote.Quote{},
+			dm.DirectMessage{},
+			stathat.StatHat{},
+			chatlog.ChatLog{},
+			troll.Troll{},
+			rickroll.RickRoll{},
+			url.Url{},
 		},
 	}
 	err := bot.Connect()
