@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobot/bot"
@@ -10,6 +12,7 @@ import (
 	"github.com/gabeguz/gobot/bots/slack"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
+	"github.com/gabeguz/gobot/plugins/cron"
 	"github.com/gabeguz/gobot/plugins/dm"
 	"github.com/gabeguz/gobot/plugins/echo"
 	"github.com/gabeguz/gobot/plugins/jira"
@@ -22,11 +25,13 @@ import (
 
 func main() {
 	var host, user, pass, room, name string
+	var crons strslice
 	flag.StringVar(&host, "host", "", "Hostname:port of the XMPP server")
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
 	flag.StringVar(&name, "name", "gobot", "Name of the bot")
+	flag.Var(&crons, "job", "List of jobs")
 	flag.Parse()
 
 	//TODO:Add some validation...but whatever for now
@@ -67,7 +72,13 @@ func main() {
 	err := bot.Connect()
 	if err != nil {
 		log.Fatalln(err)
+	}	
+
+	for _, crn := range crons {
+		parts := strings.Split(crn, "|")
+		cron.NewCron(parts[2], crn, bot)
 	}
+	
 	//go bot.PingServer(30)
 	var msg bot.Message
 	var plugin bot.Plugin
@@ -85,3 +96,16 @@ func executePlugin(p bot.Plugin, m bot.Message, b bot.Bot) {
 		b.Log(p.Name() + " => " + err.Error())
 	}
 }
+
+type strslice []string
+ 
+func (s *strslice) String() string {
+    return fmt.Sprintf("%s", *s)
+}
+ 
+
+func (s *strslice) Set(value string) error {
+	*s = append(*s, value)
+    return nil
+}
+
