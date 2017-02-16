@@ -84,7 +84,7 @@ func (b *Bot) Listen() chan gobot.Message {
 				fmt.Println("Infos:", ev.Info)
 				fmt.Println("Connection counter:", ev.ConnectionCount)
 				// Replace #general with your Channel ID
-				b.client.SendMessage(b.client.NewOutgoingMessage("Hello world", b.Opt.Room))
+				// b.client.SendMessage(b.client.NewOutgoingMessage("Hello world", b.Opt.Room))
 
 			case *slack.MessageEvent:
 				fmt.Printf("Message: %v\n", ev)
