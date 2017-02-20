@@ -47,7 +47,11 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 						Title:     fmt.Sprintf("%s : %s", issue.Key, issue.Fields.Summary),
 						TitleLink: issue.URL(),
 						Text:      issue.Fields.Description,
+						AuthorName: issue.Fields.IssueType.Name,
+						AuthorIcon: issue.Fields.IssueType.IconURL,
 					}
+					a.Fields = append(a.Fields, slack.AttachmentField{Title:"Status", Value:issue.Fields.Status.Name, Short: true})
+					a.Fields = append(a.Fields, slack.AttachmentField{Title:"Assignee", Value: issue.Fields.Assignee.Name, Short: true})
 					p.Attachments = append(p.Attachments, a)
 				}
 
