@@ -58,6 +58,8 @@ func quote(topic string) string {
 // codeQuote returns an appropriate code quote
 func codeQuote() string {
 	quotes := []string{
+		"A programmer's competence should be judged by the ability to find simple solutions, certainly not by productivity measured in \"number of lines ejected per day.\" Prolific programmers contribute to certain disaster. -Niklaus Wirth",
+		"The plague of software explosion is not a \"law of nature.\" It is avoidable, and it is the software engineer's task to curtail it. --Niklaus Wirth",
 		"If you’re about to take a hundred lines to write what you could in ten, stop and ask yourself this: what the fuck? --Mark, Criminal Overengineering",
 		"If tests are hard to write, then your code is hard to use. -etsy",
 		"A class name should not be a verb",
@@ -120,7 +122,7 @@ func codeQuote() string {
 		"There are other factors that can contribute to software rot [...] but neglect accelerates the rot faster than any other factor.",
 		"functions should either do something or answer something, but not both",
 		"Care about your code. If you don’t, then chances are no-one else will either.",
-		"Programs should be written for people to read, and only incidentally for machines to execute. — Structure and Interpretation of Computer Programs by Abelson and Sussman",
+		"Programs should be written for people to read, and only incidentally for machines to execute. —Structure and Interpretation of Computer Programs by Abelson and Sussman",
 	}
 	rand.Seed(time.Now().UnixNano())
 	quote := quotes[rand.Intn(len(quotes))]
