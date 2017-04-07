@@ -23,7 +23,7 @@ func (p Jira) Name() string {
 	return "Jira v1.0"
 }
 
-var ticketRE = regexp.MustCompile("[A-Z]+-[0-9]+")
+var ticketRE = regexp.MustCompile("[A-Za-z]+-[0-9]+")
 
 func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 	b2 := bot.(gb.Gobot)
@@ -44,14 +44,14 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 				p.Attachments = make([]slack.Attachment, 0, len(issues))
 				for _, issue := range issues {
 					a := slack.Attachment{
-						Title:     fmt.Sprintf("%s : %s", issue.Key, issue.Fields.Summary),
-						TitleLink: issue.URL(),
-						Text:      issue.Fields.Description,
+						Title:      fmt.Sprintf("%s : %s", issue.Key, issue.Fields.Summary),
+						TitleLink:  issue.URL(),
+						Text:       issue.Fields.Description,
 						AuthorName: issue.Fields.IssueType.Name,
 						AuthorIcon: issue.Fields.IssueType.IconURL,
 					}
-					a.Fields = append(a.Fields, slack.AttachmentField{Title:"Status", Value:issue.Fields.Status.Name, Short: true})
-					a.Fields = append(a.Fields, slack.AttachmentField{Title:"Assignee", Value: issue.Fields.Assignee.Name, Short: true})
+					a.Fields = append(a.Fields, slack.AttachmentField{Title: "Status", Value: issue.Fields.Status.Name, Short: true})
+					a.Fields = append(a.Fields, slack.AttachmentField{Title: "Assignee", Value: issue.Fields.Assignee.Name, Short: true})
 					p.Attachments = append(p.Attachments, a)
 				}
 
