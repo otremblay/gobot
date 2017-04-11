@@ -1,8 +1,9 @@
 package echo
 
 import (
-	"github.com/gabeguz/gobot"
 	"strings"
+
+	"github.com/gabeguz/gobot/bot"
 )
 
 type Echo struct{}
@@ -11,7 +12,7 @@ func (p Echo) Name() string {
 	return "Echo v1.0"
 }
 
-func (p Echo) Execute(msg gobot.Message, bot gobot.Bot) error {
+func (p Echo) Execute(msg bot.Message, bot bot.Bot) error {
 	if strings.HasPrefix(msg.Body(), "echo ") {
 		if msg.From() != bot.FullName() {
 			reply := echo(msg.Body())

@@ -8,8 +8,9 @@
 package dm
 
 import (
-	"github.com/gabeguz/gobot"
 	"strings"
+
+	"github.com/gabeguz/gobot/bot"
 )
 
 // Helper struct that will implement the helper interface
@@ -21,7 +22,7 @@ func (p DirectMessage) Name() string {
 }
 
 // Send allows the bot to send a message to this helper
-func (p DirectMessage) Execute(message gobot.Message, cb gobot.Bot) error {
+func (p DirectMessage) Execute(message bot.Message, cb bot.Bot) error {
 	reply := dm(message.Body(), cb.Name())
 	if len(reply) > 0 {
 		cb.Send(reply)

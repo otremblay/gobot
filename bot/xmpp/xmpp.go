@@ -1,11 +1,12 @@
 package xmpp
 
 import (
-	"github.com/gabeguz/gobot"
-	"github.com/mattn/go-xmpp"
 	"log"
 	"os"
 	"time"
+
+	"github.com/gabeguz/gobot/bot"
+	"github.com/mattn/go-xmpp"
 )
 
 type Options struct {
@@ -27,25 +28,25 @@ func (m message) From() string {
 }
 
 //*************************************************
-type bot struct {
+type xmppbot struct {
 	Opt    Options
 	client *xmpp.Client
 	logger *log.Logger
 }
 
-func (b *bot) FullName() string {
+func (b *xmppbot) FullName() string {
 	return b.Opt.Room + "/" + b.Opt.Resource
 }
 
-func (b *bot) Name() string {
+func (b *xmppbot) Name() string {
 	return b.Opt.Resource
 }
 
-func (b *bot) Send(msg string) {
+func (b *xmppbot) Send(msg string) {
 	b.client.Send(xmpp.Chat{Remote: b.Opt.Room, Type: "groupchat", Text: msg})
 }
 
-func (b *bot) Connect() error {
+func (b *xmppbot) Connect() error {
 	var err error
 	b.logger.Printf("Connecting to %s:*******@%s \n", b.Opt.User, b.Opt.Host)
 	b.client, err = b.Opt.NewClient()
@@ -58,7 +59,7 @@ func (b *bot) Connect() error {
 	return nil
 }
 
-func (b *bot) PingServer(seconds time.Duration) {
+func (b *xmppbot) pingServer(seconds time.Duration) {
 	if seconds > 0 {
 		for _ = range time.Tick(seconds * time.Second) {
 			b.client.PingC2S(b.Opt.Host+"/"+b.Opt.Resource, b.Opt.Host)
@@ -66,10 +67,10 @@ func (b *bot) PingServer(seconds time.Duration) {
 	}
 }
 
-func (b *bot) Listen() chan gobot.Message {
-	msgChan := make(chan gobot.Message)
+func (b *xmppbot) Listen() chan bot.Message {
+	msgChan := make(chan bot.Message)
 
-	go func(recv chan gobot.Message) {
+	go func(recv chan bot.Message) {
 		for {
 			chat, err := b.client.Recv()
 			if err != nil {
@@ -87,17 +88,17 @@ func (b *bot) Listen() chan gobot.Message {
 	return msgChan
 }
 
-func (b *bot) SetLogger(logger *log.Logger) {
+func (b *xmppbot) SetLogger(logger *log.Logger) {
 	b.logger = logger
 }
 
-func (b *bot) Log(msg string) {
+func (b *xmppbot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
 //*************************************************
 
-func New(host, user, password, room, name string) gobot.Bot {
+func New(host, user, password, room, name string) bot.Bot {
 	opt := Options{
 		xmpp.Options{
 			Host:     host,
@@ -110,7 +111,7 @@ func New(host, user, password, room, name string) gobot.Bot {
 		},
 		room,
 	}
-	bot := &bot{Opt: opt}
-	bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
-	return bot
+	xmppbot := &xmppbot{Opt: opt}
+	xmppbot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
+	return xmppbot
 }

@@ -4,17 +4,17 @@ import (
 	"flag"
 	"log"
 
-	"github.com/gabeguz/gobot"
-	"github.com/gabeguz/gobot/bots/xmpp"
-	"github.com/gabeguz/gobot/plugins/beer"
-	"github.com/gabeguz/gobot/plugins/chatlog"
-	"github.com/gabeguz/gobot/plugins/dm"
-	"github.com/gabeguz/gobot/plugins/echo"
-	"github.com/gabeguz/gobot/plugins/quote"
-	"github.com/gabeguz/gobot/plugins/rickroll"
-	"github.com/gabeguz/gobot/plugins/stathat"
-	"github.com/gabeguz/gobot/plugins/troll"
-	"github.com/gabeguz/gobot/plugins/url"
+	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot/bot/xmpp"
+	"github.com/gabeguz/gobot/plugin/beer"
+	"github.com/gabeguz/gobot/plugin/chatlog"
+	"github.com/gabeguz/gobot/plugin/dm"
+	"github.com/gabeguz/gobot/plugin/echo"
+	"github.com/gabeguz/gobot/plugin/quote"
+	"github.com/gabeguz/gobot/plugin/rickroll"
+	"github.com/gabeguz/gobot/plugin/stathat"
+	"github.com/gabeguz/gobot/plugin/troll"
+	"github.com/gabeguz/gobot/plugin/url"
 )
 
 func main() {
@@ -28,9 +28,9 @@ func main() {
 
 	//TODO:Add some validation...but whatever for now
 
-	bot := Gobot{
+	gobot := Gobot{
 		xmpp.New(host, user, pass, room, name),
-		[]gobot.Plugin{
+		[]bot.Plugin{
 			echo.Echo{},
 			beer.Beer{},
 			quote.Quote{},
@@ -42,22 +42,22 @@ func main() {
 			url.Url{},
 		},
 	}
-	err := bot.Connect()
+	err := gobot.Connect()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	go bot.PingServer(30)
-	var msg gobot.Message
-	var plugin gobot.Plugin
-	for msg = range bot.Listen() {
-		for _, plugin = range bot.Plugins {
-			go executePlugin(plugin, msg, bot)
+	//go bot.PingServer(30)
+	var msg bot.Message
+	var plugin bot.Plugin
+	for msg = range gobot.Listen() {
+		for _, plugin = range gobot.Plugins {
+			go executePlugin(plugin, msg, gobot)
 		}
 	}
 
 }
 
-func executePlugin(p gobot.Plugin, m gobot.Message, b gobot.Bot) {
+func executePlugin(p bot.Plugin, m bot.Message, b bot.Bot) {
 	err := p.Execute(m, b)
 	if err != nil {
 		b.Log(p.Name() + " => " + err.Error())
@@ -65,6 +65,6 @@ func executePlugin(p gobot.Plugin, m gobot.Message, b gobot.Bot) {
 }
 
 type Gobot struct {
-	gobot.Bot
-	Plugins []gobot.Plugin
+	bot.Bot
+	Plugins []bot.Plugin
 }

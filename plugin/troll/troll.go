@@ -1,8 +1,9 @@
 package troll
 
 import (
-	"github.com/gabeguz/gobot"
 	"strings"
+
+	"github.com/gabeguz/gobot/bot"
 )
 
 const (
@@ -31,7 +32,7 @@ func (p Troll) Name() string {
 	return "Troll v1.0"
 }
 
-func (p Troll) Execute(msg gobot.Message, bot gobot.Bot) error {
+func (p Troll) Execute(msg bot.Message, bot bot.Bot) error {
 	if strings.HasPrefix(msg.Body(), "troll") {
 		bot.Send(troll)
 	}

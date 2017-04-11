@@ -7,7 +7,9 @@ Initail work based on https://github.com/mattn/go-xmpp/blob/master/example/examp
 
 gobot is under active development, the api may change w/out warning.  
 
-By itself, gobot just sits and listens for incoming XMPP messages.  When a message is received, gobot passes the message on to any number of plugins.  The plugins provide all the features of the chatbot.
+By itself, gobot just sits and listens for incoming XMPP messages.  When a
+message is received, gobot passes the message on to any number of plugins.  The
+plugins provide all the features of the chatbot.
 
 Currently, the following plugins exist: 
 
@@ -35,7 +37,7 @@ First, you'll need to have golang installed:  http://golang.org/doc/install
 Then, once that is working, all you need to do is: 
 
 ```
-$ go get github.com/gabeguz/gobot
+$ go get github.com/gabeguz/gobot/cmd/gobot
 ```
 
 Running a bot
@@ -54,11 +56,11 @@ Creating a plugin is pretty easy, you just need to import the xmppbot library:
 
 ```
 import (
-	"github.com/gabeguz/xmppbot"
+	"github.com/gabeguz/gobot/bot"
 )
 ```
 
-And then implement 2 exported methods so that you conform to the gobotplugin interface: 
+And then implement 2 exported methods so that you conform to the bot.Plugin interface: 
 
 ```
 type MyPlugin struct {}
@@ -67,7 +69,7 @@ func (p MyPlugin) Name() string {
 	return "MyPlugin v1.0"
 }
 
-func (p MyPlugin) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
+func (p MyPlugin) Execute(msg bot.Message, bot bot.Bot) error {
 	if msg.From() != bot.FullName() {
 		bot.Send("Why, hello!")
 	}
@@ -75,11 +77,12 @@ func (p MyPlugin) Execute(msg xmppbot.Message, bot xmppbot.Bot) error {
 }
 ```
 
-One last step, edit gobot/gobot.go and add a call to your new plugin (importing if necessary) to the []gobotplugin.Plugin slice:
+One last step, edit gobot/cmd/gobot.go and add a call to your new plugin
+(importing if necessary) to the []bot.Plugin slice:
 
 ```
-[]gobotplugin.Plugin{
-	gobotplugin.MyPlugin{},
+[]bot.Plugin{
+	myplugin.MyPlugin{},
 }
 ```
 

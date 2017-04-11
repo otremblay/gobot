@@ -7,9 +7,10 @@
 package chatlog
 
 import (
-	"github.com/gabeguz/gobot"
 	"log"
 	"os"
+
+	"github.com/gabeguz/gobot/bot"
 )
 
 // Helper struct that will implement the Helper interface
@@ -21,7 +22,7 @@ func (c ChatLog) Name() string {
 }
 
 // Send allows the bot to send a message to this helper
-func (c ChatLog) Execute(message gobot.Message, bot gobot.Bot) error {
+func (c ChatLog) Execute(message bot.Message, bot bot.Bot) error {
 	f := getLogFileHandle("/tmp/chatlog")
 	logit(message.Body(), f)
 	return nil
