@@ -28,7 +28,7 @@ func main() {
 
 	//TODO:Add some validation...but whatever for now
 
-	gobot := Gobot{
+	gobot := chatbot{
 		xmpp.New(host, user, pass, room, name),
 		[]bot.Plugin{
 			echo.Echo{},
@@ -50,7 +50,7 @@ func main() {
 	var msg bot.Message
 	var plugin bot.Plugin
 	for msg = range gobot.Listen() {
-		for _, plugin = range gobot.Plugins {
+		for _, plugin = range gobot.plugins {
 			go executePlugin(plugin, msg, gobot)
 		}
 	}
@@ -64,7 +64,7 @@ func executePlugin(p bot.Plugin, m bot.Message, b bot.Bot) {
 	}
 }
 
-type Gobot struct {
+type chatbot struct {
 	bot.Bot
-	Plugins []bot.Plugin
+	plugins []bot.Plugin
 }

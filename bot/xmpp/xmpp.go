@@ -9,12 +9,11 @@ import (
 	"github.com/mattn/go-xmpp"
 )
 
-type Options struct {
+type options struct {
 	xmpp.Options
 	Room string
 }
 
-//*************************************************
 type message struct {
 	body, from string
 }
@@ -27,9 +26,8 @@ func (m message) From() string {
 	return m.from
 }
 
-//*************************************************
 type xmppbot struct {
-	Opt    Options
+	Opt    options
 	client *xmpp.Client
 	logger *log.Logger
 }
@@ -96,10 +94,9 @@ func (b *xmppbot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
-//*************************************************
-
+// New returns a new bot.Bot
 func New(host, user, password, room, name string) bot.Bot {
-	opt := Options{
+	opt := options{
 		xmpp.Options{
 			Host:     host,
 			User:     user,
