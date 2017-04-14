@@ -1,3 +1,5 @@
+// Package bot provides the interfaces for bots, messages, and plugins used to
+// implement a chatbot.
 package bot
 
 import (
