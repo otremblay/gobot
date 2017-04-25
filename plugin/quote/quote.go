@@ -58,6 +58,7 @@ func quote(topic string) string {
 // codeQuote returns an appropriate code quote
 func codeQuote() string {
 	quotes := []string{
+		"Simple: a line of code that does something very small and specific. \nEasy: a line of code that does a lot by calling a framework function causing thousands of lines of code to be executed.\n -Dave Cheney",
 		"A programmer's competence should be judged by the ability to find simple solutions, certainly not by productivity measured in \"number of lines ejected per day.\" Prolific programmers contribute to certain disaster. -Niklaus Wirth",
 		"The plague of software explosion is not a \"law of nature.\" It is avoidable, and it is the software engineer's task to curtail it. --Niklaus Wirth",
 		"If you’re about to take a hundred lines to write what you could in ten, stop and ask yourself this: what the fuck? --Mark, Criminal Overengineering",
