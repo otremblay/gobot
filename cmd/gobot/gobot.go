@@ -71,13 +71,13 @@ func main() {
 	err := bot.Connect()
 	if err != nil {
 		log.Fatalln(err)
-	}	
+	}
 
 	for _, crn := range crons {
 		parts := strings.Split(crn, "|")
 		cron.NewCron(parts[2], crn, bot)
 	}
-	
+
 	//go bot.PingServer(30)
 	var msg gobot.Message
 	var plugin gobot.Plugin
@@ -97,14 +97,12 @@ func executePlugin(p gobot.Plugin, m gobot.Message, b gobot.Bot) {
 }
 
 type strslice []string
- 
+
 func (s *strslice) String() string {
-    return fmt.Sprintf("%s", *s)
+	return fmt.Sprintf("%s", *s)
 }
- 
 
 func (s *strslice) Set(value string) error {
 	*s = append(*s, value)
-    return nil
+	return nil
 }
-
