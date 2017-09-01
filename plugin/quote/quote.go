@@ -58,6 +58,7 @@ func quote(topic string) string {
 // codeQuote returns an appropriate code quote
 func codeQuote() string {
 	quotes := []string{
+		"Releasing code into the world is a responsibility: you are telling people they can rely on you. When a user reports a problem, there's almost always something you can do. So take your responsibility seriously and fix the problem, regardless of whose fault it is. \n-Itamar Turner-Trauring",
 		"Simple: a line of code that does something very small and specific. \nEasy: a line of code that does a lot by calling a framework function causing thousands of lines of code to be executed.\n -Dave Cheney",
 		"A programmer's competence should be judged by the ability to find simple solutions, certainly not by productivity measured in \"number of lines ejected per day.\" Prolific programmers contribute to certain disaster. -Niklaus Wirth",
 		"The plague of software explosion is not a \"law of nature.\" It is avoidable, and it is the software engineer's task to curtail it. --Niklaus Wirth",
