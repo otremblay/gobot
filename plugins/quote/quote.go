@@ -7,10 +7,11 @@
 package quote
 
 import (
-	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/gabeguz/gobot"
 )
 
 // Helper will implement the Helper interface
@@ -34,7 +35,7 @@ func (p Quote) Execute(message gobot.Message, bot gobot.Bot) error {
 		q = quote("admin")
 	}
 	if len(q) > 0 {
-		bot.Send(q)
+		bot.Reply(message, q)
 	}
 	return nil
 }

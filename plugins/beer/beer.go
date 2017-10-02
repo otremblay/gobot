@@ -1,10 +1,11 @@
 package beer
 
 import (
-	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/gabeguz/gobot"
 )
 
 var ayes = []string{
@@ -38,11 +39,11 @@ func (p Beer) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	now := time.Now()
 	if strings.HasPrefix(msg.Body(), "beer?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
 	} else if strings.HasPrefix(msg.Body(), "ビール?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
 	} else if strings.HasPrefix(msg.Body(), "맥주?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
 	}
 
 	return nil

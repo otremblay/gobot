@@ -12,6 +12,7 @@ import (
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/cron"
+	"github.com/gabeguz/gobot/plugins/dice"
 	"github.com/gabeguz/gobot/plugins/dm"
 	"github.com/gabeguz/gobot/plugins/echo"
 	"github.com/gabeguz/gobot/plugins/jira"
@@ -23,17 +24,19 @@ import (
 )
 
 func main() {
-	var host, user, pass, room, name string
+	var host, user, pass, room, name, logfile string
 	var crons strslice
 	flag.StringVar(&host, "host", "", "Hostname:port of the XMPP server")
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
 	flag.StringVar(&name, "name", "gobot", "Name of the bot")
+	flag.StringVar(&logfile, "logfile", "/tmp/chatlog", "Name of the bot")
 	flag.Var(&crons, "job", "List of jobs")
 	flag.Parse()
 
 	//TODO:Add some validation...but whatever for now
+	chatlog := chatlog.ChatLog{Filename: logfile}
 
 	bot := gb.Gobot{
 		slack.New(pass, room, name),
@@ -42,15 +45,15 @@ func main() {
 			beer.Beer{},
 			quote.Quote{},
 			dm.DirectMessage{},
+			dice.Dice{Log: chatlog},
+			chatlog,
 			stathat.StatHat{},
-			chatlog.ChatLog{},
 			troll.Troll{},
 			rickroll.RickRoll{},
 			url.Url{},
 			jira.Jira{},
 		},
 	}
-
 	/*
 		bot := gb.Gobot{
 			xmpp.New(host, user, pass, room, name),

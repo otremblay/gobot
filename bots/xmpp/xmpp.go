@@ -1,11 +1,12 @@
 package xmpp
 
 import (
-	"github.com/gabeguz/gobot"
-	"github.com/mattn/go-xmpp"
 	"log"
 	"os"
 	"time"
+
+	"github.com/gabeguz/gobot"
+	"github.com/mattn/go-xmpp"
 )
 
 type Options struct {
@@ -15,7 +16,7 @@ type Options struct {
 
 //*************************************************
 type message struct {
-	body, from string
+	body, from, room string
 }
 
 func (m message) Body() string {
@@ -26,26 +27,34 @@ func (m message) From() string {
 	return m.from
 }
 
+func (m message) Room() string {
+	return m.room
+}
+
 //*************************************************
-type bot struct {
+type Bot struct {
 	Opt    Options
 	client *xmpp.Client
 	logger *log.Logger
 }
 
-func (b *bot) FullName() string {
+func (b *Bot) FullName() string {
 	return b.Opt.Room + "/" + b.Opt.Resource
 }
 
-func (b *bot) Name() string {
+func (b *Bot) Name() string {
 	return b.Opt.Resource
 }
 
-func (b *bot) Send(msg string) {
+func (b *Bot) Send(msg string) {
 	b.client.Send(xmpp.Chat{Remote: b.Opt.Room, Type: "groupchat", Text: msg})
 }
 
-func (b *bot) Connect() error {
+func (b *Bot) Reply(orig gobot.Message, msg string) {
+	b.client.Send(xmpp.Chat{Remote: orig.Room(), Type: "groupchat", Text: msg})
+}
+
+func (b *Bot) Connect() error {
 	var err error
 	b.logger.Printf("Connecting to %s:*******@%s \n", b.Opt.User, b.Opt.Host)
 	b.client, err = b.Opt.NewClient()
@@ -58,7 +67,7 @@ func (b *bot) Connect() error {
 	return nil
 }
 
-func (b *bot) PingServer(seconds time.Duration) {
+func (b *Bot) PingServer(seconds time.Duration) {
 	if seconds > 0 {
 		for _ = range time.Tick(seconds * time.Second) {
 			b.client.PingC2S(b.Opt.Host+"/"+b.Opt.Resource, b.Opt.Host)
@@ -66,7 +75,7 @@ func (b *bot) PingServer(seconds time.Duration) {
 	}
 }
 
-func (b *bot) Listen() chan gobot.Message {
+func (b *Bot) Listen() chan gobot.Message {
 	msgChan := make(chan gobot.Message)
 
 	go func(recv chan gobot.Message) {
@@ -77,7 +86,7 @@ func (b *bot) Listen() chan gobot.Message {
 			}
 			switch v := chat.(type) {
 			case xmpp.Chat:
-				recv <- message{body: v.Text, from: v.Remote}
+				recv <- message{body: v.Text, from: v.Remote, room: v.Remote}
 			case xmpp.Presence:
 				b.logger.Printf("Presence: %+v \n", v)
 			}
@@ -87,11 +96,11 @@ func (b *bot) Listen() chan gobot.Message {
 	return msgChan
 }
 
-func (b *bot) SetLogger(logger *log.Logger) {
+func (b *Bot) SetLogger(logger *log.Logger) {
 	b.logger = logger
 }
 
-func (b *bot) Log(msg string) {
+func (b *Bot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
@@ -110,7 +119,7 @@ func New(host, user, password, room, name string) gobot.Bot {
 		},
 		room,
 	}
-	bot := &bot{Opt: opt}
+	bot := &Bot{Opt: opt}
 	bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
 	return bot
 }

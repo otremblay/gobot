@@ -2,9 +2,10 @@ package url
 
 import (
 	"fmt"
+	"net/url"
+
 	"github.com/gabeguz/gobot"
 	"github.com/thatguystone/swan"
-	"net/url"
 )
 
 type Url struct{}
@@ -31,7 +32,7 @@ func (p Url) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	// Respond with the article title
 	fmt.Printf("Title: %v\n", a)
-	bot.Send(a.Meta.Title)
+	bot.Reply(msg, a.Meta.Title)
 
 	return nil
 }
