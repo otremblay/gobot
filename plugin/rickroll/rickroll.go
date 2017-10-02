@@ -1,8 +1,9 @@
 package rickroll
 
 import (
-	"github.com/gabeguz/gobot/bot"
 	"time"
+
+	"github.com/gabeguz/gobot/bot"
 )
 
 var rickroll = []string{
@@ -26,7 +27,7 @@ func (p RickRoll) Execute(msg bot.Message, bot bot.Bot) error {
 	if msg.Body() == bot.Name()+": how are you feeling?" {
 		time.Sleep(5 * time.Second)
 		for _, s := range rickroll {
-			bot.Send(s)
+			bot.Reply(msg, s)
 			time.Sleep(3 * time.Second)
 		}
 	}

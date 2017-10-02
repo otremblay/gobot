@@ -35,7 +35,7 @@ func (p Quote) Execute(message bot.Message, bot bot.Bot) error {
 		q = quote("admin")
 	}
 	if len(q) > 0 {
-		bot.Send(q)
+		bot.Reply(message, q)
 	}
 	return nil
 }

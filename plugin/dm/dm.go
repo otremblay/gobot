@@ -25,7 +25,7 @@ func (p DirectMessage) Name() string {
 func (p DirectMessage) Execute(message bot.Message, cb bot.Bot) error {
 	reply := dm(message.Body(), cb.Name())
 	if len(reply) > 0 {
-		cb.Send(reply)
+		cb.Reply(message, reply)
 	}
 	return nil
 }

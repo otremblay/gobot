@@ -32,7 +32,7 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 		if len(matches) > 0 {
 			issues, err := jkl.List(fmt.Sprintf("key in (%s)", strings.Join(matches, ",")))
 			if err != nil {
-				bot.Send(fmt.Sprintf("I AM ERROR: %s", err.Error()))
+				bot.Reply(msg, fmt.Sprintf("I AM ERROR: %s", err.Error()))
 			}
 
 			switch b3 := b2.InternalBot().(type) {
@@ -42,7 +42,7 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 				p.EscapeText = false
 				p.Username = b3.Opt.Name
 				p.Attachments = make([]slack.Attachment, 0, len(issues))
-				for _, issue := range issues {
+				for issue := range issues {
 					a := slack.Attachment{
 						Title:      fmt.Sprintf("%s : %s", issue.Key, issue.Fields.Summary),
 						TitleLink:  issue.URL(),
@@ -55,13 +55,13 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 					p.Attachments = append(p.Attachments, a)
 				}
 
-				c.PostMessage(b3.Opt.Room, "", p)
+				c.PostMessage(msg.Room(), "", p)
 			default:
 				b := bytes.NewBuffer(nil)
-				for _, issue := range issues {
+				for issue := range issues {
 					fmt.Fprintln(b, fmt.Sprintf("%s|%s : %s", issue.URL(), issue.Key, issue.Fields.Summary))
 				}
-				bot.Send(b.String())
+				bot.Reply(msg, b.String())
 			}
 		}
 	}

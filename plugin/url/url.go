@@ -32,7 +32,7 @@ func (p Url) Execute(msg bot.Message, bot bot.Bot) error {
 
 	// Respond with the article title
 	fmt.Printf("Title: %v\n", a)
-	bot.Send(a.Meta.Title)
+	bot.Reply(msg, a.Meta.Title)
 
 	return nil
 }

@@ -34,7 +34,7 @@ func (p Troll) Name() string {
 
 func (p Troll) Execute(msg bot.Message, bot bot.Bot) error {
 	if strings.HasPrefix(msg.Body(), "troll") {
-		bot.Send(troll)
+		bot.Reply(msg, troll)
 	}
 	return nil
 }
