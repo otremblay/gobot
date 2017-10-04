@@ -18,16 +18,25 @@ type Options struct {
 }
 
 //*************************************************
-type message struct {
-	body, from string
+type Message struct {
+	body, from       string
+	effectiveMessage *slack.MessageEvent
 }
 
-func (m message) Body() string {
+func (m Message) Body() string {
 	return m.body
 }
 
-func (m message) From() string {
+func (m Message) From() string {
 	return m.from
+}
+
+func (m Message) Room() string {
+	return m.effectiveMessage.Channel
+}
+
+func (m Message) EffectiveMessage() *slack.MessageEvent {
+	return m.effectiveMessage
 }
 
 //*************************************************
@@ -47,6 +56,10 @@ func (b *Bot) Name() string {
 
 func (b *Bot) Send(msg string) {
 	b.client.SendMessage(b.client.NewOutgoingMessage(msg, b.Opt.Room))
+}
+
+func (b *Bot) Reply(orig gobot.Message, msg string) {
+	b.client.SendMessage(b.client.NewOutgoingMessage(msg, orig.Room()))
 }
 
 func (b *Bot) Client() *slack.RTM {
@@ -88,8 +101,8 @@ func (b *Bot) Listen() chan gobot.Message {
 
 			case *slack.MessageEvent:
 				fmt.Printf("Message: %v\n", ev)
-				recv <- message{body: ev.Msg.Text, from: ev.Msg.Channel}
-				// recv <- message{body: v.Text, from: v.Remote}
+				recv <- Message{body: ev.Msg.Text, from: ev.Msg.Channel, effectiveMessage: ev}
+				// recv <- Message{body: v.Text, from: v.Remote}
 
 			case *slack.PresenceChangeEvent:
 				fmt.Printf("Presence Change: %v\n", ev)

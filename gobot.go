@@ -9,6 +9,7 @@ type Bot interface {
 	Name() string
 	FullName() string
 	Send(msg string)
+	Reply(orig Message, msg string)
 	Connect() error
 	PingServer(time.Duration)
 	Listen() chan Message
@@ -20,6 +21,7 @@ type Bot interface {
 type Message interface {
 	Body() string
 	From() string
+	Room() string
 }
 
 type Plugin interface {
