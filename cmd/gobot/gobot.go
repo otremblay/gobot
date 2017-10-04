@@ -31,7 +31,7 @@ func main() {
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
 	flag.StringVar(&name, "name", "gobot", "Name of the bot")
-	flag.StringVar(&logfile, "logfile", "/tmp/chatlog", "Name of the bot")
+	flag.StringVar(&logfile, "logfile", "/tmp/chatlog", "Path to log file")
 	flag.Var(&crons, "job", "List of jobs")
 	flag.Parse()
 
