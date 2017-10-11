@@ -72,7 +72,22 @@ func (b *Bot) Connect() error {
 	slack := slack.New(b.Opt.Token)
 	slack.SetDebug(true)
 	b.client = slack.NewRTM()
-	b.logger.Printf("Joining %s\n", b.Opt.Room)
+	channels, err := b.Client().GetChannels(true)
+	if err != nil {
+		return fmt.Errorf("Error checking channel list: %v", err)
+	}
+	var channelname string
+	for _, channel := range channels {
+		if b.Opt.Room == channel.ID {
+			channelname = channel.Name
+			break
+		}
+		if b.Opt.Room == channel.Name {
+			channelname = b.Opt.Room
+			b.Opt.Room = channel.ID
+		}
+	}
+	b.logger.Printf("Joining %s\n", channelname)
 	return nil
 }
 
