@@ -62,7 +62,6 @@ func (d Dice) Execute(msg gobot.Message, bot gobot.Bot) error {
 				} else {
 					u, err := b3.Client().GetUserInfo(mess.User)
 					if err == nil {
-
 						n = u.RealName
 						users[mess.User] = n
 					}
