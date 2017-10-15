@@ -13,6 +13,22 @@ var dmTests = []struct {
 		out: "my ears are burning",
 	},
 	{
+		in:  "Bot",
+		out: "my ears are burning",
+	},
+	{
+		in:  "bOt",
+		out: "my ears are burning",
+	},
+	{
+		in:  "boT",
+		out: "my ears are burning",
+	},
+	{
+		in:  "BOT",
+		out: "my ears are burning",
+	},
+	{
 		in:  "bot plus some stuff",
 		out: "my ears are burning",
 	},
