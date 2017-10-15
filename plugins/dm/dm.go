@@ -32,7 +32,7 @@ func (p DirectMessage) Execute(message gobot.Message, cb gobot.Bot) error {
 
 func dm(message, nick string) string {
 	reply := ""
-	if strings.Contains(message, nick) {
+	if strings.Contains(strings.ToLower(message), strings.ToLower(nick)) {
 		reply = ("my ears are burning")
 	}
 	return reply
