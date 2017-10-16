@@ -42,13 +42,17 @@ func (c ChatLog) Execute(message gobot.Message, bot gobot.Bot) error {
 			return nil
 		}
 		var n string
-		if user, ok := users[mess.User]; ok {
+		messUser := mess.User
+		if messUser == "" {
+			messUser = mess.SubMessage.User
+		}
+		if user, ok := users[messUser]; ok {
 			n = user
 		} else {
-			u, err := b3.Client().GetUserInfo(mess.User)
+			u, err := b3.Client().GetUserInfo(messUser)
 			if err == nil {
 				n = u.Name
-				users[mess.User] = n
+				users[messUser] = n
 			}
 		}
 		c.Logit(n, message.Body())
