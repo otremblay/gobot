@@ -102,7 +102,6 @@ func (b *Bot) Listen() chan gobot.Message {
 
 	go func(recv chan gobot.Message) {
 		for msg := range b.client.IncomingEvents {
-			fmt.Print("Event Received: ")
 
 			switch ev := msg.Data.(type) {
 			case *slack.HelloEvent:
@@ -111,8 +110,6 @@ func (b *Bot) Listen() chan gobot.Message {
 			case *slack.ConnectedEvent:
 				fmt.Println("Infos:", ev.Info)
 				fmt.Println("Connection counter:", ev.ConnectionCount)
-				// Replace #general with your Channel ID
-				// b.client.SendMessage(b.client.NewOutgoingMessage("Hello world", b.Opt.Room))
 
 			case *slack.MessageEvent:
 				fmt.Printf("Message: %v\n", ev)
@@ -134,9 +131,7 @@ func (b *Bot) Listen() chan gobot.Message {
 				return
 
 			default:
-				//fmt.Printf("Other event: %v\n", ev)
 				// Ignore other events..
-				// fmt.Printf("Unexpected: %v\n", msg.Data)
 			}
 
 		}
