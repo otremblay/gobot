@@ -24,7 +24,10 @@ type Message struct {
 }
 
 func (m Message) Body() string {
-	return m.body
+	if m.effectiveMessage.Msg.Text == "" {
+		return m.effectiveMessage.SubMessage.Text
+	}
+	return m.effectiveMessage.Msg.Text
 }
 
 func (m Message) From() string {
@@ -59,7 +62,12 @@ func (b *Bot) Send(msg string) {
 }
 
 func (b *Bot) Reply(orig gobot.Message, msg string) {
-	b.client.SendMessage(b.client.NewOutgoingMessage(msg, orig.Room()))
+	mess := b.client.NewOutgoingMessage(msg, orig.Room())
+	slackmsg := orig.(Message).EffectiveMessage()
+	if slackmsg.ThreadTimestamp != "" {
+		mess.ThreadTimestamp = slackmsg.ThreadTimestamp
+	}
+	b.client.SendMessage(mess)
 }
 
 func (b *Bot) Client() *slack.RTM {

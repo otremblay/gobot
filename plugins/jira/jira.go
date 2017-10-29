@@ -42,7 +42,7 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 				p.EscapeText = false
 				p.Username = b3.Opt.Name
 				p.Attachments = make([]slack.Attachment, 0, len(issues))
-				for issue := range issues {
+				for _, issue := range issues {
 					a := slack.Attachment{
 						Title:      fmt.Sprintf("%s : %s", issue.Key, issue.Fields.Summary),
 						TitleLink:  issue.URL(),
@@ -58,7 +58,7 @@ func (p Jira) Execute(msg gobot.Message, bot gobot.Bot) error {
 				c.PostMessage(msg.Room(), "", p)
 			default:
 				b := bytes.NewBuffer(nil)
-				for issue := range issues {
+				for _, issue := range issues {
 					fmt.Fprintln(b, fmt.Sprintf("%s|%s : %s", issue.URL(), issue.Key, issue.Fields.Summary))
 				}
 				bot.Reply(msg, b.String())
