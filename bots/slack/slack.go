@@ -24,10 +24,18 @@ type Message struct {
 }
 
 func (m Message) Body() string {
-	if m.effectiveMessage.Msg.Text == "" {
-		return m.effectiveMessage.SubMessage.Text
+	if m2 := m.effectiveMessage.Text; m2 != "" {
+		return m2
 	}
-	return m.effectiveMessage.Msg.Text
+	if m2 := m.effectiveMessage.Msg.Text; m2 != "" {
+		return m2
+	}
+	if m.effectiveMessage.SubMessage != nil {
+		if m2 := m.effectiveMessage.SubMessage.Text; m2 != "" {
+			return m2
+		}
+	}
+	return m.body
 }
 
 func (m Message) From() string {
