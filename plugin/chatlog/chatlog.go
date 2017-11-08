@@ -44,7 +44,9 @@ func (c ChatLog) Execute(message gobot.Message, bot gobot.Bot) error {
 		var n string
 		messUser := mess.User
 		if messUser == "" {
-			messUser = mess.SubMessage.User
+			if mess.SubMessage != nil {
+				messUser = mess.SubMessage.User
+			}
 		}
 		if user, ok := users[messUser]; ok {
 			n = user
@@ -54,6 +56,10 @@ func (c ChatLog) Execute(message gobot.Message, bot gobot.Bot) error {
 				n = u.Name
 				users[messUser] = n
 			}
+		}
+		if n == "" {
+			fmt.Println(fmt.Sprintf("Unknown user for this message: %v", mess))
+			n = "Unknown user"
 		}
 		c.Logit(n, message.Body())
 		for _, a := range mess.Attachments {
