@@ -10,6 +10,7 @@ import (
 	"github.com/gabeguz/gobot/bot"
 	gb "github.com/gabeguz/gobot/bots/gobot"
 	"github.com/gabeguz/gobot/bots/slack"
+	"github.com/gabeguz/gobot/bots/xmpp"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/cron"
@@ -25,13 +26,14 @@ import (
 )
 
 func main() {
-	var host, user, pass, room, name, logfile string
+	var host, user, pass, room, name, protocol, logfile string
 	var crons strslice
 	flag.StringVar(&host, "host", "", "Hostname:port of the XMPP server")
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
 	flag.StringVar(&room, "room", "", "Room to join (i.e.: #myroom@hostname.com")
 	flag.StringVar(&name, "name", "gobot", "Name of the bot")
+	flag.StringVar(&protocol, "protocol", "xmpp", "Protocol (xmpp, slack)")
 	flag.StringVar(&logfile, "logfile", "/tmp/chatlog", "Path to log file")
 	flag.Var(&crons, "job", "List of jobs")
 	flag.Parse()
@@ -39,24 +41,26 @@ func main() {
 	//TODO:Add some validation...but whatever for now
 	chatlog := chatlog.ChatLog{Filename: logfile}
 
-	bot := gb.Gobot{
-		slack.New(pass, room, name),
-		[]gobot.Plugin{
-			echo.Echo{},
-			beer.Beer{},
-			quote.Quote{},
-			dm.DirectMessage{},
-			dice.Dice{Log: chatlog},
-			chatlog,
-			stathat.StatHat{},
-			troll.Troll{},
-			rickroll.RickRoll{},
-			url.Url{},
-			jira.Jira{},
-		},
-	}
-	/*
-		bot := gb.Gobot{
+	var bot gb.Gobot
+	if protocol == "slack" {
+		bot = gb.Gobot{
+			slack.New(pass, room, name),
+			[]gobot.Plugin{
+				echo.Echo{},
+				beer.Beer{},
+				quote.Quote{},
+				dm.DirectMessage{},
+				dice.Dice{Log: chatlog},
+				chatlog,
+				stathat.StatHat{},
+				troll.Troll{},
+				rickroll.RickRoll{},
+				url.Url{},
+				jira.Jira{},
+			},
+		}
+	} else {
+		bot = gb.Gobot{
 			xmpp.New(host, user, pass, room, name),
 			[]gobot.Plugin{
 				echo.Echo{},
@@ -64,13 +68,13 @@ func main() {
 				quote.Quote{},
 				dm.DirectMessage{},
 				stathat.StatHat{},
-				chatlog.ChatLog{},
+				chatlog,
 				troll.Troll{},
 				rickroll.RickRoll{},
 				url.Url{},
 			},
 		}
-	*/
+	}
 
 	err := bot.Connect()
 	if err != nil {
