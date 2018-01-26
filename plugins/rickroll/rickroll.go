@@ -3,7 +3,7 @@ package rickroll
 import (
 	"time"
 
-	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot"
 )
 
 var rickroll = []string{
@@ -23,7 +23,7 @@ func (p RickRoll) Name() string {
 	return "RickRoll v1.0"
 }
 
-func (p RickRoll) Execute(msg bot.Message, bot bot.Bot) error {
+func (p RickRoll) Execute(msg gobot.Message, bot gobot.Bot) error {
 	if msg.Body() == bot.Name()+": how are you feeling?" {
 		time.Sleep(5 * time.Second)
 		for _, s := range rickroll {

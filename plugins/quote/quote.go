@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot"
 )
 
 // Helper will implement the Helper interface
@@ -23,7 +23,7 @@ func (p Quote) Name() string {
 }
 
 // Send allows the bot to send us a message
-func (p Quote) Execute(message bot.Message, bot bot.Bot) error {
+func (p Quote) Execute(message gobot.Message, bot gobot.Bot) error {
 	var q = ""
 	if strings.Contains(message.Body(), "code quote") {
 		q = quote("code")

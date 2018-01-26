@@ -6,11 +6,10 @@ import (
 	"time"
 
 	"github.com/gabeguz/gobot"
-	"github.com/gabeguz/gobot/bot"
 	"github.com/mattn/go-xmpp"
 )
 
-type options struct {
+type Options struct {
 	xmpp.Options
 	Room string
 }
@@ -51,7 +50,7 @@ func (b *Bot) Send(msg string) {
 }
 
 func (b *Bot) Reply(orig gobot.Message, msg string) {
-	b.client.Send(xmpp.Chat{Remote: orig.Room(), Type: "groupchat", Text: msg})
+	b.client.Send(xmpp.Chat{Remote: b.Opt.Room, Type: "groupchat", Text: msg})
 }
 
 func (b *Bot) Connect() error {
@@ -78,7 +77,7 @@ func (b *Bot) PingServer(seconds time.Duration) {
 func (b *Bot) Listen() chan gobot.Message {
 	msgChan := make(chan gobot.Message)
 
-	go func(recv chan bot.Message) {
+	go func(recv chan gobot.Message) {
 		for {
 			chat, err := b.client.Recv()
 			if err != nil {
@@ -105,8 +104,8 @@ func (b *Bot) Log(msg string) {
 }
 
 // New returns a new bot.Bot
-func New(host, user, password, room, name string) bot.Bot {
-	opt := options{
+func New(host, user, password, room, name string) gobot.Bot {
+	opt := Options{
 		xmpp.Options{
 			Host:     host,
 			User:     user,

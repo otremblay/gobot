@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot"
 	"github.com/thatguystone/swan"
 )
 
@@ -14,7 +14,7 @@ func (p Url) Name() string {
 	return "Url v1.0"
 }
 
-func (p Url) Execute(msg bot.Message, bot bot.Bot) error {
+func (p Url) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	if msg.From() == bot.FullName() {
 		return nil

@@ -7,7 +7,7 @@
 package stathat
 
 import (
-	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot"
 	"github.com/stathat/go"
 )
 
@@ -20,7 +20,7 @@ func (p StatHat) Name() string {
 }
 
 // Send allows the bot to send a message to this helper
-func (p StatHat) Execute(message bot.Message, bot bot.Bot) error {
+func (p StatHat) Execute(message gobot.Message, bot gobot.Bot) error {
 	stathat.PostEZCount("chat seen", "gguzman.work@gmail.com", 1)
 	return nil
 }

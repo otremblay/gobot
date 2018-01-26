@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/gabeguz/gobot"
-	"github.com/gabeguz/gobot/bot"
 	gb "github.com/gabeguz/gobot/bots/gobot"
 	"github.com/gabeguz/gobot/bots/slack"
 	"github.com/gabeguz/gobot/bots/xmpp"
@@ -87,17 +86,17 @@ func main() {
 	}
 
 	//go bot.PingServer(30)
-	var msg bot.Message
-	var plugin bot.Plugin
-	for msg = range gobot.Listen() {
-		for _, plugin = range gobot.plugins {
-			go executePlugin(plugin, msg, gobot)
+	var msg gobot.Message
+	var plugin gobot.Plugin
+	for msg = range bot.Listen() {
+		for _, plugin = range bot.Plugins {
+			go executePlugin(plugin, msg, bot)
 		}
 	}
 
 }
 
-func executePlugin(p bot.Plugin, m bot.Message, b bot.Bot) {
+func executePlugin(p gobot.Plugin, m gobot.Message, b gobot.Bot) {
 	err := p.Execute(m, b)
 	if err != nil {
 		b.Log(p.Name() + " => " + err.Error())

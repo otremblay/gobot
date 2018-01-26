@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gabeguz/gobot/bot"
+	"github.com/gabeguz/gobot"
 )
 
 var ayes = []string{
@@ -31,7 +31,7 @@ func (p Beer) Name() string {
 	return "Beer v1.0"
 }
 
-func (p Beer) Execute(msg bot.Message, bot bot.Bot) error {
+func (p Beer) Execute(msg gobot.Message, bot gobot.Bot) error {
 	// Don't reply if it's the bot asking
 	if msg.From() == bot.FullName() {
 		return nil
