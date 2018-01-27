@@ -14,14 +14,9 @@ import (
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/cron"
 	"github.com/gabeguz/gobot/plugins/dice"
-	"github.com/gabeguz/gobot/plugins/dm"
 	"github.com/gabeguz/gobot/plugins/echo"
 	"github.com/gabeguz/gobot/plugins/jira"
 	"github.com/gabeguz/gobot/plugins/quote"
-	"github.com/gabeguz/gobot/plugins/rickroll"
-	"github.com/gabeguz/gobot/plugins/stathat"
-	"github.com/gabeguz/gobot/plugins/troll"
-	"github.com/gabeguz/gobot/plugins/url"
 )
 
 func main() {
@@ -37,41 +32,26 @@ func main() {
 	flag.Var(&crons, "job", "List of jobs")
 	flag.Parse()
 
-	//TODO:Add some validation...but whatever for now
 	chatlog := chatlog.ChatLog{Filename: logfile}
 
 	var bot gb.Gobot
+	plugins := []gobot.Plugin{
+		echo.Echo{},
+		beer.Beer{},
+		quote.Quote{},
+		dice.Dice{Log: chatlog},
+		chatlog,
+		jira.Jira{},
+	}
 	if protocol == "slack" {
 		bot = gb.Gobot{
 			slack.New(pass, room, name),
-			[]gobot.Plugin{
-				echo.Echo{},
-				beer.Beer{},
-				quote.Quote{},
-				dm.DirectMessage{},
-				dice.Dice{Log: chatlog},
-				chatlog,
-				stathat.StatHat{},
-				troll.Troll{},
-				rickroll.RickRoll{},
-				url.Url{},
-				jira.Jira{},
-			},
+			plugins,
 		}
 	} else {
 		bot = gb.Gobot{
 			xmpp.New(host, user, pass, room, name),
-			[]gobot.Plugin{
-				echo.Echo{},
-				beer.Beer{},
-				quote.Quote{},
-				dm.DirectMessage{},
-				stathat.StatHat{},
-				chatlog,
-				troll.Troll{},
-				rickroll.RickRoll{},
-				url.Url{},
-			},
+			plugins,
 		}
 	}
 
@@ -85,7 +65,6 @@ func main() {
 		cron.NewCron(parts[2], crn, bot)
 	}
 
-	//go bot.PingServer(30)
 	var msg gobot.Message
 	var plugin gobot.Plugin
 	for msg = range bot.Listen() {

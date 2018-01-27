@@ -30,7 +30,6 @@ func (m message) Room() string {
 	return m.room
 }
 
-//*************************************************
 type Bot struct {
 	Opt    Options
 	client *xmpp.Client
@@ -66,7 +65,7 @@ func (b *Bot) Connect() error {
 	return nil
 }
 
-func (b *Bot) PingServer(seconds time.Duration) {
+func (b *Bot) pingServer(seconds time.Duration) {
 	if seconds > 0 {
 		for _ = range time.Tick(seconds * time.Second) {
 			b.client.PingC2S(b.Opt.Host+"/"+b.Opt.Resource, b.Opt.Host)
@@ -87,7 +86,7 @@ func (b *Bot) Listen() chan gobot.Message {
 			case xmpp.Chat:
 				recv <- message{body: v.Text, from: v.Remote, room: v.Remote}
 			case xmpp.Presence:
-				b.logger.Printf("Presence: %+v \n", v)
+				// ignore presence
 			}
 		}
 	}(msgChan)
@@ -112,7 +111,7 @@ func New(host, user, password, room, name string) gobot.Bot {
 			Password: password,
 			Resource: name,
 			NoTLS:    true,
-			Debug:    true,
+			Debug:    false,
 			Session:  true,
 		},
 		room,

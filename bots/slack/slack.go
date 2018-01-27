@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gabeguz/gobot"
 	"github.com/nlopes/slack"
@@ -17,7 +16,6 @@ type Options struct {
 	Debug bool
 }
 
-//*************************************************
 type Message struct {
 	body, from       string
 	effectiveMessage *slack.MessageEvent
@@ -50,7 +48,6 @@ func (m Message) EffectiveMessage() *slack.MessageEvent {
 	return m.effectiveMessage
 }
 
-//*************************************************
 type Bot struct {
 	Opt    Options
 	client *slack.RTM
@@ -107,10 +104,6 @@ func (b *Bot) Connect() error {
 	return nil
 }
 
-// TODO this shouldn't be an exported part of the Bot interface, as not all Bots will need this.
-func (b *Bot) PingServer(seconds time.Duration) {
-}
-
 func (b *Bot) Listen() chan gobot.Message {
 	msgChan := make(chan gobot.Message)
 
@@ -124,26 +117,23 @@ func (b *Bot) Listen() chan gobot.Message {
 				// Ignore hello
 
 			case *slack.ConnectedEvent:
-				fmt.Println("Infos:", ev.Info)
-				fmt.Println("Connection counter:", ev.ConnectionCount)
+				b.logger.Println("Infos:", ev.Info)
+				b.logger.Println("Connection counter:", ev.ConnectionCount)
 
 			case *slack.MessageEvent:
-				fmt.Printf("Message: %v\n", ev)
 				recv <- Message{body: ev.Msg.Text, from: ev.Msg.Channel, effectiveMessage: ev}
-				// recv <- Message{body: v.Text, from: v.Remote}
 
 			case *slack.PresenceChangeEvent:
-				fmt.Printf("Presence Change: %v\n", ev)
-				b.logger.Printf("Presence Change: %+v \n", ev)
+				// Ignore presence change
 
 			case *slack.LatencyReport:
-				fmt.Printf("Current latency: %v\n", ev.Value)
+				// Ignore latency reports
 
 			case *slack.RTMError:
-				fmt.Printf("Error: %s\n", ev.Error())
+				b.logger.Printf("Error: %s\n", ev.Error())
 
 			case *slack.InvalidAuthEvent:
-				fmt.Printf("Invalid credentials")
+				b.logger.Printf("Invalid credentials")
 				return
 
 			default:
@@ -164,14 +154,12 @@ func (b *Bot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
-//*************************************************
-
 func New(token, room, name string) gobot.Bot {
 	opt := Options{
 		Token: token,
 		Room:  room,
 		Name:  name,
-		Debug: true,
+		Debug: false,
 	}
 	Bot := &Bot{Opt: opt}
 	Bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
