@@ -6,10 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/gabeguz/gobot"
-	gb "github.com/gabeguz/gobot/bots/gobot"
-	"github.com/gabeguz/gobot/bots/slack"
-	"github.com/gabeguz/gobot/bots/xmpp"
+	gb "github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobot/plugins/beer"
 	"github.com/gabeguz/gobot/plugins/chatlog"
 	"github.com/gabeguz/gobot/plugins/cron"
@@ -17,6 +14,8 @@ import (
 	"github.com/gabeguz/gobot/plugins/echo"
 	"github.com/gabeguz/gobot/plugins/jira"
 	"github.com/gabeguz/gobot/plugins/quote"
+	"github.com/gabeguz/gobot/slack"
+	"github.com/gabeguz/gobot/xmpp"
 )
 
 func main() {
@@ -35,7 +34,7 @@ func main() {
 	chatlog := chatlog.ChatLog{Filename: logfile}
 
 	var bot gb.Gobot
-	plugins := []gobot.Plugin{
+	plugins := []gb.Plugin{
 		echo.Echo{},
 		beer.Beer{},
 		quote.Quote{},
@@ -65,8 +64,8 @@ func main() {
 		cron.NewCron(parts[2], crn, bot)
 	}
 
-	var msg gobot.Message
-	var plugin gobot.Plugin
+	var msg gb.Message
+	var plugin gb.Plugin
 	for msg = range bot.Listen() {
 		for _, plugin = range bot.Plugins {
 			go executePlugin(plugin, msg, bot)
@@ -75,7 +74,7 @@ func main() {
 
 }
 
-func executePlugin(p gobot.Plugin, m gobot.Message, b gobot.Bot) {
+func executePlugin(p gb.Plugin, m gb.Message, b gb.Bot) {
 	err := p.Execute(m, b)
 	if err != nil {
 		b.Log(p.Name() + " => " + err.Error())

@@ -1,6 +1,7 @@
 package xmpp
 
 import (
+	"crypto/tls"
 	"log"
 	"os"
 	"time"
@@ -104,6 +105,9 @@ func (b *Bot) Log(msg string) {
 
 // New returns a new bot.Bot
 func New(host, user, password, room, name string) gobot.Bot {
+	xmpp.DefaultConfig = tls.Config{
+		InsecureSkipVerify: true,
+	}
 	opt := Options{
 		xmpp.Options{
 			Host:     host,

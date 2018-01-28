@@ -25,3 +25,12 @@ type Plugin interface {
 	Name() string
 	Execute(msg Message, bot Bot) error
 }
+
+type Gobot struct {
+	Bot
+	Plugins []Plugin
+}
+
+func (g *Gobot) InternalBot() Bot {
+	return g.Bot
+}

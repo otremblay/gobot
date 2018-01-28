@@ -12,9 +12,9 @@ import (
 	"os"
 
 	"github.com/gabeguz/gobot"
-	gb "github.com/gabeguz/gobot/bots/gobot"
-	sb "github.com/gabeguz/gobot/bots/slack"
-	xmpp "github.com/gabeguz/gobot/bots/xmpp"
+	gb "github.com/gabeguz/gobot"
+	sb "github.com/gabeguz/gobot/slack"
+	xmpp "github.com/gabeguz/gobot/xmpp"
 )
 
 // Helper struct that will implement the Helper interface

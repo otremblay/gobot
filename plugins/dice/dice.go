@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/gabeguz/gobot"
-	gb "github.com/gabeguz/gobot/bots/gobot"
-	sb "github.com/gabeguz/gobot/bots/slack"
+	gb "github.com/gabeguz/gobot"
 	"github.com/gabeguz/gobot/plugins/chatlog"
+	sb "github.com/gabeguz/gobot/slack"
 	"github.com/nlopes/slack"
 )
 

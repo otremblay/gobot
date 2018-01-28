@@ -83,7 +83,6 @@ func (b *Bot) Connect() error {
 	b.logger.Printf("Connecting to slack\n")
 	// slack.New doesn't return an error
 	slack := slack.New(b.Opt.Token)
-	slack.SetDebug(true)
 	b.client = slack.NewRTM()
 	channels, err := b.Client().GetChannels(true)
 	if err != nil {
