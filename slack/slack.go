@@ -10,10 +10,11 @@ import (
 )
 
 type Options struct {
-	Token string
-	Room  string
-	Name  string
-	Debug bool
+	Token    string
+	Room     string
+	Name     string
+	Protocol string
+	Debug    bool
 }
 
 type Message struct {
@@ -155,10 +156,11 @@ func (b *Bot) Log(msg string) {
 
 func New(token, room, name string) gobot.Bot {
 	opt := Options{
-		Token: token,
-		Room:  room,
-		Name:  name,
-		Debug: false,
+		Token:    token,
+		Room:     room,
+		Name:     name,
+		Protocol: "slack",
+		Debug:    false,
 	}
 	Bot := &Bot{Opt: opt}
 	Bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))

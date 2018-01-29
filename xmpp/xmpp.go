@@ -11,8 +11,16 @@ import (
 )
 
 type Options struct {
-	xmpp.Options
-	Room string
+	Room     string
+	Protocol string
+	Host     string
+	User     string
+	Password string
+	Resource string
+	NoTLS    bool
+	StartTLS bool
+	Debug    bool
+	Session  bool
 }
 
 type message struct {
@@ -56,7 +64,22 @@ func (b *Bot) Reply(orig gobot.Message, msg string) {
 func (b *Bot) Connect() error {
 	var err error
 	b.logger.Printf("Connecting to %s:*******@%s \n", b.Opt.User, b.Opt.Host)
-	b.client, err = b.Opt.NewClient()
+
+	// Allow use of unknown certificates
+	xmpp.DefaultConfig = tls.Config{
+		InsecureSkipVerify: true,
+	}
+
+	options := xmpp.Options{
+		Host:     b.Opt.Host,
+		User:     b.Opt.User,
+		Password: b.Opt.Password,
+		NoTLS:    b.Opt.NoTLS,
+		StartTLS: b.Opt.StartTLS,
+		Debug:    b.Opt.Debug,
+		Session:  b.Opt.Session,
+	}
+	b.client, err = options.NewClient()
 	if err != nil {
 		b.logger.Printf("Error: %s \n", err)
 		return err
@@ -103,22 +126,19 @@ func (b *Bot) Log(msg string) {
 	b.logger.Printf("%s \n", msg)
 }
 
-// New returns a new bot.Bot
-func New(host, user, password, room, name string) gobot.Bot {
-	xmpp.DefaultConfig = tls.Config{
-		InsecureSkipVerify: true,
-	}
+// New returns a new XMPP Bot
+func New(host, user, password, room, name string) *Bot {
 	opt := Options{
-		xmpp.Options{
-			Host:     host,
-			User:     user,
-			Password: password,
-			Resource: name,
-			NoTLS:    true,
-			Debug:    false,
-			Session:  true,
-		},
-		room,
+		Host:     host,
+		User:     user,
+		Password: password,
+		Resource: name,
+		NoTLS:    true,
+		StartTLS: true,
+		Debug:    false,
+		Session:  true,
+		Room:     room,
+		Protocol: "xmpp",
 	}
 	bot := &Bot{Opt: opt}
 	bot.SetLogger(log.New(os.Stderr, "", log.LstdFlags))
