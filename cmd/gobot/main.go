@@ -18,9 +18,10 @@ import (
 	"github.com/gabeguz/gobot/xmpp"
 )
 
-func main() {
-	var host, user, pass, room, name, protocol, logfile string
-	var crons strslice
+var host, user, pass, room, name, protocol, logfile string
+var crons strslice
+
+func init() {
 	flag.StringVar(&host, "host", "", "Hostname:port of the XMPP server")
 	flag.StringVar(&user, "user", "", "Username of XMPP server (i.e.: foo@hostname.com")
 	flag.StringVar(&pass, "pass", "", "Password for XMPP server")
@@ -29,19 +30,10 @@ func main() {
 	flag.StringVar(&protocol, "protocol", "xmpp", "Protocol (xmpp, slack)")
 	flag.StringVar(&logfile, "logfile", "/tmp/chatlog", "Path to log file")
 	flag.Var(&crons, "job", "List of jobs")
-	flag.Parse()
+}
 
-	chatlog := chatlog.ChatLog{Filename: logfile}
-
+func createBot(plugins []gb.Plugin) gb.Gobot {
 	var bot gb.Gobot
-	plugins := []gb.Plugin{
-		echo.Echo{},
-		beer.Beer{},
-		quote.Quote{},
-		dice.Dice{Log: chatlog},
-		chatlog,
-		jira.Jira{},
-	}
 	if protocol == "slack" {
 		bot = gb.Gobot{
 			slack.New(pass, room, name),
@@ -53,7 +45,30 @@ func main() {
 			plugins,
 		}
 	}
+	return bot
+}
 
+func executePlugin(p gb.Plugin, m gb.Message, b gb.Bot) {
+	err := p.Execute(m, b)
+	if err != nil {
+		b.Log(p.Name() + " => " + err.Error())
+	}
+}
+
+func main() {
+	flag.Parse()
+	chatlog := chatlog.ChatLog{Filename: logfile}
+
+	plugins := []gb.Plugin{
+		echo.Echo{},
+		beer.Beer{},
+		quote.Quote{},
+		dice.Dice{Log: chatlog},
+		chatlog,
+		jira.Jira{},
+	}
+
+	bot := createBot(plugins)
 	err := bot.Connect()
 	if err != nil {
 		log.Fatalln(err)
@@ -70,14 +85,6 @@ func main() {
 		for _, plugin = range bot.Plugins {
 			go executePlugin(plugin, msg, bot)
 		}
-	}
-
-}
-
-func executePlugin(p gb.Plugin, m gb.Message, b gb.Bot) {
-	err := p.Execute(m, b)
-	if err != nil {
-		b.Log(p.Name() + " => " + err.Error())
 	}
 }
 
