@@ -1,10 +1,11 @@
 package echo
 
 import (
-	"github.com/gabeguz/libgobot"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/gabeguz/gobot"
 )
 
 type Bot struct{}
@@ -37,6 +38,9 @@ func (p Bot) SetLogger(*log.Logger) {
 func (p Bot) PingServer(time.Duration) {
 }
 
+func (p Bot) Reply(gobot.Message, string) {
+}
+
 type Message struct{}
 
 func (m Message) Body() string {
@@ -45,6 +49,10 @@ func (m Message) Body() string {
 
 func (m Message) From() string {
 	return "nottestbot"
+}
+
+func (m Message) Room() string {
+	return "echo room"
 }
 
 func TestPluginName(t *testing.T) {

@@ -8,8 +8,9 @@
 package dm
 
 import (
-	"github.com/gabeguz/gobot"
 	"strings"
+
+	"github.com/gabeguz/gobot"
 )
 
 // Helper struct that will implement the helper interface
@@ -24,14 +25,14 @@ func (p DirectMessage) Name() string {
 func (p DirectMessage) Execute(message gobot.Message, cb gobot.Bot) error {
 	reply := dm(message.Body(), cb.Name())
 	if len(reply) > 0 {
-		cb.Send(reply)
+		cb.Reply(message, reply)
 	}
 	return nil
 }
 
 func dm(message, nick string) string {
 	reply := ""
-	if strings.Contains(message, nick) {
+	if strings.Contains(strings.ToLower(message), strings.ToLower(nick)) {
 		reply = ("my ears are burning")
 	}
 	return reply

@@ -1,10 +1,11 @@
 package beer
 
 import (
-	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/gabeguz/gobot"
 )
 
 var ayes = []string{
@@ -22,6 +23,19 @@ var nays = []string{
 	"(yoda) Friday, the beer drinking day is. Until four o'clock must you wait.",
 	"Really want to hit the ballmer peak eh?",
 	"no beer for you.",
+	"Not time for beer?  Try a scotch.",
+}
+
+var scotchAyes = []string{
+	"Mmm... scotch.",
+	"Scotch, scotch, scotch, I love scotch",
+	"Feeling peaty are we? Cheers.",
+}
+
+var scotchNays = []string{
+	"Sorry, I just poured myself the last glass.",
+	"While I'm never opposed to a glass of scotch, your coworkers might not appreciate you having one right *now.*",
+	"no scotch for you.",
 }
 
 type Beer struct{}
@@ -38,26 +52,40 @@ func (p Beer) Execute(msg gobot.Message, bot gobot.Bot) error {
 
 	now := time.Now()
 	if strings.HasPrefix(msg.Body(), "beer?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
 	} else if strings.HasPrefix(msg.Body(), "ビール?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
 	} else if strings.HasPrefix(msg.Body(), "맥주?") {
-		bot.Send(beer(now))
+		bot.Reply(msg, beer(now))
+	} else if strings.HasPrefix(msg.Body(), "scotch?") {
+		bot.Reply(msg, scotch(now))
 	}
 
 	return nil
 }
 
 func beer(t time.Time) string {
+	var msg string
 	if t.Weekday().String() == "Friday" && t.Hour() >= 16 {
 		rand.Seed(time.Now().UnixNano())
-		yup := ayes[rand.Intn(len(ayes))]
-		return yup
+		msg = ayes[rand.Intn(len(ayes))]
 	} else if t.Month().String() == "December" && t.Day() == 24 {
-		return "Merry Beermas!"
+		msg = "Merry Beermas!"
 	} else {
 		rand.Seed(time.Now().UnixNano())
-		nope := nays[rand.Intn(len(nays))]
-		return nope
+		msg = nays[rand.Intn(len(nays))]
 	}
+	return msg
+}
+
+func scotch(t time.Time) string {
+	var msg string
+	if t.Hour() >= 14 {
+		rand.Seed(time.Now().UnixNano())
+		msg = scotchAyes[rand.Intn(len(scotchAyes))]
+	} else {
+		rand.Seed(time.Now().UnixNano())
+		msg = scotchNays[rand.Intn(len(scotchNays))]
+	}
+	return msg
 }

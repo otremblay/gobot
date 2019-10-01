@@ -1,8 +1,9 @@
 package echo
 
 import (
-	"github.com/gabeguz/gobot"
 	"strings"
+
+	"github.com/gabeguz/gobot"
 )
 
 type Echo struct{}

@@ -7,10 +7,11 @@
 package quote
 
 import (
-	"github.com/gabeguz/gobot"
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/gabeguz/gobot"
 )
 
 // Helper will implement the Helper interface
@@ -34,7 +35,7 @@ func (p Quote) Execute(message gobot.Message, bot gobot.Bot) error {
 		q = quote("admin")
 	}
 	if len(q) > 0 {
-		bot.Send(q)
+		bot.Reply(message, q)
 	}
 	return nil
 }
@@ -57,6 +58,10 @@ func quote(topic string) string {
 // codeQuote returns an appropriate code quote
 func codeQuote() string {
 	quotes := []string{
+		"Releasing code into the world is a responsibility: you are telling people they can rely on you. When a user reports a problem, there's almost always something you can do. So take your responsibility seriously and fix the problem, regardless of whose fault it is. \n-Itamar Turner-Trauring",
+		"Simple: a line of code that does something very small and specific. \nEasy: a line of code that does a lot by calling a framework function causing thousands of lines of code to be executed.\n -Dave Cheney",
+		"A programmer's competence should be judged by the ability to find simple solutions, certainly not by productivity measured in \"number of lines ejected per day.\" Prolific programmers contribute to certain disaster. -Niklaus Wirth",
+		"The plague of software explosion is not a \"law of nature.\" It is avoidable, and it is the software engineer's task to curtail it. --Niklaus Wirth",
 		"If you’re about to take a hundred lines to write what you could in ten, stop and ask yourself this: what the fuck? --Mark, Criminal Overengineering",
 		"If tests are hard to write, then your code is hard to use. -etsy",
 		"A class name should not be a verb",
@@ -119,7 +124,7 @@ func codeQuote() string {
 		"There are other factors that can contribute to software rot [...] but neglect accelerates the rot faster than any other factor.",
 		"functions should either do something or answer something, but not both",
 		"Care about your code. If you don’t, then chances are no-one else will either.",
-		"Programs should be written for people to read, and only incidentally for machines to execute. — Structure and Interpretation of Computer Programs by Abelson and Sussman",
+		"Programs should be written for people to read, and only incidentally for machines to execute. —Structure and Interpretation of Computer Programs by Abelson and Sussman",
 	}
 	rand.Seed(time.Now().UnixNano())
 	quote := quotes[rand.Intn(len(quotes))]
