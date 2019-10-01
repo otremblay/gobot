@@ -10,7 +10,7 @@ import (
 	gb "github.com/gabeguz/gobot"
 	sb "github.com/gabeguz/gobot/slack"
 	"github.com/nlopes/slack"
-	"otremblay.com/jkl"
+	"github.com/otremblay/jkl"
 )
 
 type Jira struct{}
